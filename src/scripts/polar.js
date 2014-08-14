@@ -19,13 +19,15 @@ var PolarCoordinate = function(radius,degree){
 	this.d = Number(degree);
 };
 
-PolarCoordinate.prototype.toCartesian = function(){
+var pp = PolarCoordinate.prototype;
+
+pp.toCartesian = function(){
 	var x = this.r * m.cos(deg2rad(this.d));
 	var y = this.r * m.sin(deg2rad(this.d));
 	return new CartesianCoordinate(x,y);
 };
 
-PolarCoordinate.prototype.abs = function(){
+pp.abs = function(){
 	while(this.d<0){
 		this.d += REVOLUTION;
 	}
@@ -35,7 +37,7 @@ PolarCoordinate.prototype.abs = function(){
 	return this;
 };
 
-PolarCoordinate.prototype.rad = function(){
+pp.rad = function(){
 	return deg2rad(this.d);
 }
 
@@ -48,7 +50,8 @@ var CartesianCoordinate = function(x,y){
 	this.x = Number(x);
 	this.y = Number(y);
 };
-CartesianCoordinate.prototype.toPolar = function(){
+var cp = CartesianCoordinate.prototype;
+cp.toPolar = function(){
 	var radius = m.sqrt(m.pow(this.x,2) + m.pow(this.y,2));
 	var degree = rad2deg(m.atan(this.y/this.x));
 
@@ -60,17 +63,11 @@ CartesianCoordinate.prototype.toPolar = function(){
 	
 	return new PolarCoordinate(radius,degree);
 };
-CartesianCoordinate.prototype.toString = function(){
+cp.toString = function(){
 	return round(this.x) + "," + round(this.y);
 };
-CartesianCoordinate.prototype.clone = function(){
+cp.clone = function(){
 	return new CartesianCoordinate(this.x,this.y);
-};
-CartesianCoordinate.prototype.roundX = function(){
-	return round(this.x);
-};
-CartesianCoordinate.prototype.roundY = function(){
-	return round(this.y);
 };
 
 module.exports = {

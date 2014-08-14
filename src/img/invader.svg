@@ -43,31 +43,24 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="translate(-321.43747,-358.09062)"
-     stroke-miterlimit="4"
-     id="g6"
-     stroke-dasharray="none"
-     stroke-linejoin="round"
-     stroke-linecap="round"
-     stroke-width="5"
-     stroke="#800000"
-     fill="#F00">
-    <rect
-       y="360.58"
-       width="32.361"
-       height="20"
-       x="354.36"
-       id="rect8" />
-    <rect
-       y="377.72"
-       width="93.214"
-       height="31.071"
-       x="323.93"
-       id="rect10" />
-  </g>
+  <rect
+     style="fill:#00ff00;stroke:#808000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+     id="rect8"
+     x="32.922516"
+     height="20"
+     width="32.361"
+     y="-50.700382"
+     transform="scale(1,-1)" />
+  <rect
+     style="fill:#ffff00;stroke:#808000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+     id="rect10"
+     x="2.4925227"
+     height="31.070999"
+     width="93.213997"
+     y="-33.560368"
+     transform="scale(1,-1)" />
 </svg>

@@ -17,6 +17,9 @@
     "gulp-uglify": "~0.2.1",
     "gulp-connect": "~2.0.5",
     "gulp-browserify": "~0.5.0",
-    "gulp-less": "~1.2.3"
+    "gulp-less": "~1.2.3",
+    "rsyncwrapper": "~0.4.1",
+    "gulp-zip": "~1.0.0",
+    "through": "~2.3.4"
   }
 }

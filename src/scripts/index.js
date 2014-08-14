@@ -19,8 +19,18 @@ var Game = function(canv,opts){
 
 	var player = new Sprite({
 		src: 'player',
-		w: planet/5
+		w: planet/2.5
 	}).pos(planet,0);
+
+	var invaders = [];
+
+	for(var i=0; i<10; i++){
+		invaders.push(new Sprite({
+			behaviour: 'inv1',
+			src: 'invader',
+			w: planet/2.5
+		}).pos(i*planet+max,i*5*math.PI));
+	}
 
 	ctx.translate(w/2,h/2);
 
@@ -70,6 +80,9 @@ var Game = function(canv,opts){
 		});
 
 		player.posInc(0,1).draw(0,ctx);
+		invaders.forEach(function(invader){
+			invader.draw(0,ctx);
+		});
 	}
 	function render(){
 		ctx.clearRect(-w/2,-h/2,w,h);
