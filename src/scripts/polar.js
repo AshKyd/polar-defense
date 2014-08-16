@@ -40,6 +40,9 @@ pp.abs = function(){
 pp.rad = function(){
 	return deg2rad(this.d);
 }
+pp.clone = function(){
+	return new PolarCoordinate(this.r,this.d);
+};
 
 /**
  * Creates a cartesian coordinate
@@ -65,9 +68,6 @@ cp.toPolar = function(){
 };
 cp.toString = function(){
 	return round(this.x) + "," + round(this.y);
-};
-cp.clone = function(){
-	return new CartesianCoordinate(this.x,this.y);
 };
 
 module.exports = {

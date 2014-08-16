@@ -13,19 +13,19 @@ gulp.task('js', function() {
         .pipe(browserify({
           debug : false
         }))
-        .pipe(uglify({
-        	compress: {
-        		unsafe: true,
-        		hoist_vars: true
-        	}
-        }))
+        // .pipe(uglify({
+        // 	compress: {
+        // 		unsafe: true,
+        // 		hoist_vars: true
+        // 	}
+        // }))
         .pipe(gulp.dest('dist/scripts/'))
 });
 
 gulp.task('deploy',function(cb){
 	rsync({
 		src:'dist/',
-		dest:'direct.ash.ms:/var/www/ash.ms/polar-defense/',
+		dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defense/',
 		args: 'avz'
 	},cb);
 });
@@ -48,9 +48,10 @@ gulp.task('connect',function(){
 });
 
 gulp.task('zip',function(){
-    gulp.src('dist/*')
+    gulp.src('dist/**')
     	.pipe(zip('dist.zip'))
-    	.pipe(through(function(){},function(){
+        .pipe(gulp.dest('./'))
+    	.pipe(through(function(a){this.queue(a);},function(){
     		var max = 13312;
     		var size = fs.statSync(__dirname+'/dist.zip').size;
     		if(size > max){

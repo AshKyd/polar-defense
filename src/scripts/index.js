@@ -7,32 +7,50 @@ var Sprite = require('./sprite');
 
 var Game = function(canv,opts){
 	opts = opts ||{};
-	var w = window.innerWidth;
-	var h = window.innerHeight;
-	canv.width = w;
-	canv.height = h;
-	var max = math.max(w,h);
+	var max = math.min(innerHeight,innerWidth);
+	canv.width = max;
+	canv.height = max;
+
 	var planet = max/(opts.size||15);
 
 	var ctx = canv.getContext('2d');
-	var time = 0;
+	var lastFrame = performance.now();
+
+	var sprites = [];
+
+	sprites.push(new Sprite({
+		src: 'halo',
+		w: planet*6,
+		kinetic:false
+	}).pos(-planet*3,0));
 
 	var player = new Sprite({
 		src: 'player',
 		w: planet/2.5
 	}).pos(planet,0);
+	sprites.push(player);
 
-	var invaders = [];
+	var touch = require('./touch');
+
+	// Fire
+	touch.click = function(){
+		console.log('Fire!');
+		sprites.push(new Sprite({
+			behaviour: 'missile1'
+		}).pos(player.pos.r, player.pos.d));
+	};
 
 	for(var i=0; i<10; i++){
-		invaders.push(new Sprite({
-			behaviour: 'inv1',
-			src: 'invader',
-			w: planet/2.5
-		}).pos(i*planet+max,i*5*math.PI));
+		for(var j=0; j<3; j++){
+			sprites.push(new Sprite({
+				behaviour: 'inv1',
+				src: 'invader',
+				w: planet/2.5
+			}).pos(j*planet/3+max/2,i*2*math.PI));
+		}
 	}
 
-	ctx.translate(w/2,h/2);
+	ctx.translate(max/2,max/2);
 
 	function drawLine(line,opts){
 		opts = opts || {};
@@ -55,44 +73,49 @@ var Game = function(canv,opts){
 		ctx.beginPath();
 		ctx.arc(pos.x,pos.y,opts.width||10,0,math.PI*2);
 		if(opts.stroke){
+			ctx.lineWidth = opts.w || 1;
 			ctx.stroke();
 		}
 		if(opts.fill){
 			ctx.fill();
 		}
 	}
-	function drawGrid(){
-		var steps = 30;
-		for(var i=0;i<steps; i++){
-			drawLine([
-				new Polar(planet, 360*(i/steps)).toCartesian(),
-				new Polar(max, 360*(i/steps)).toCartesian()
-			],{
-				stroke: '#333'
-			});
-		}
+	function drawWorld(delta){
 
+		sprites.forEach(function(sprite){
+			sprite.draw(delta,ctx);
+		});
+
+		var crust = planet/4;
 		drawCircle(new Polar(0,0).toCartesian(),{
-			fill:'green',
-			stroke:'lightgreen',
-			width:planet,
-			w:5
-		});
-
-		player.posInc(0,1).draw(0,ctx);
-		invaders.forEach(function(invader){
-			invader.draw(0,ctx);
+			fill:'#00d400',
+			stroke:'#00aa00',
+			width:planet-crust/2,
+			w:crust
 		});
 	}
+
+	function collisionDetection(){
+		sprites.forEach(function(sprite){
+			
+		});
+	}
+
 	function render(){
-		ctx.clearRect(-w/2,-h/2,w,h);
-		drawGrid();
-		window.requestAnimationFrame(render);
+		ctx.clearRect(-max/2,-max/2,max,max);
+		var delta = performance.now() - lastFrame;
+
+		player.posInc(0,touch.x/(max/4));
+		lastFrame = performance.now();
+		drawWorld(delta);
+
+		requestAnimationFrame(render);
 	}
 
-	window.requestAnimationFrame(render);
+	requestAnimationFrame(render);
+
 };
 
 window.onload = function(){
-	new Game(document.querySelector('#g'));
+	new Game(document.querySelector('#c'));
 };

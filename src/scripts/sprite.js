@@ -2,16 +2,29 @@ var p = require('./polar');
 var Cartesian = p.cartesian;
 var Polar = p.polar;
 var math = Math;
+
+var behaviours = {
+	missile1: require('./bhv.missile1'),
+	inv1: require('./bhv.inv1')
+};
+
 /**
  * Super simpe sprite placeholder.
  */
 var Sprite = function(opts){
+	var _this = this;
 	for(var i in opts){
-		this[i] = opts[i];
+		_this[i] = opts[i];
 	}
-	if(this.src){
-		this.img = document.createElement('img');
-		this.img.src = 'img/'+opts.src+'.svg';
+	if(opts.behaviour){
+		_this.behaviour = behaviours[_this.behaviour];
+		if(_this.behaviour && _this.behaviour.init){
+			_this.behaviour.init.call(this);
+		}
+	}
+	if(_this.src){
+		_this.img = document.createElement('img');
+		_this.img.src = 'img/'+_this.src+'.svg';
 	}
 };
 
@@ -23,7 +36,11 @@ var Sprite = function(opts){
  * @return {Object}   this
  */
 Sprite.prototype.pos = function(h,d){
-	this.pos = new Polar(h,d);
+	if(typeof d === 'undefined'){
+		this.pos = h;
+	} else {
+		this.pos = new Polar(h,d);
+	}
 	return this;
 };
 
@@ -48,6 +65,9 @@ Sprite.prototype.posInc = function(h,d){
 Sprite.prototype.draw = function(delta, ctx){
 	var img = this.img;
 	var xy = this.pos.toCartesian();
+	if(this.behaviour){
+		this.behaviour.tick.call(this,delta);
+	}
 	if(img && img.width){
 		ctx.save();
 		ctx.translate(xy.x,xy.y);
