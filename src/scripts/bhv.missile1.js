@@ -1,4 +1,5 @@
 module.exports = {
+	kinetic: true,
 	init: function(){
 		this.src = 'missile1';
 		this.w = 10;

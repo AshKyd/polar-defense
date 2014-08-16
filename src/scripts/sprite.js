@@ -6,7 +6,8 @@ var Polar = p.polar;
 var behaviours = {
 	particle: require('./bhv.particle'),
 	missile1: require('./bhv.missile1'),
-	inv1: require('./bhv.inv1')
+	inv1: require('./bhv.inv1'),
+	invmis: require('./bhv.invmiss'),
 };
 
 /**
@@ -22,6 +23,7 @@ var Sprite = function(opts){
 		if(_this.b.init){
 			_this.b.init.call(this, opts);
 		}
+		_this.kinetic = _this.b.kinetic || _this.kinetic;
 	}
 	if(_this.src){
 		_this.img = document.createElement('img');
@@ -42,7 +44,7 @@ var sp = Sprite.prototype;
  * @param  {Number} d Degree
  * @return {Object}   this
  */
-sp.pos = function(h,d){
+sp.setpos = function(h,d){
 	if(typeof d === 'undefined'){
 		this.pos = h;
 	} else {
@@ -78,13 +80,16 @@ sp.draw = function(delta, ctx){
 	}
 
 	// DEBUG STUFF. Display bounding boxes.
-	// var bb = _this.box();
-	// draw.line(ctx,[
-	// 	bb[0].toCartesian(),
-	// 	new Polar(bb[0].r,bb[1].d).toCartesian(),
-	// 	bb[1].toCartesian(),
-	// 	new Polar(bb[1].r,bb[0].d).toCartesian()
-	// ]);
+	// Commented out because 13k.
+	if(this.kinetic){
+		var bb = _this.box();
+		draw.line(ctx,[
+			bb[0].toCartesian(),
+			new Polar(bb[0].r,bb[1].d).toCartesian(),
+			bb[1].toCartesian(),
+			new Polar(bb[1].r,bb[0].d).toCartesian()
+		]);
+	}
 
 	ctx.save();
 	ctx.globalAlpha = this.alpha || 1;

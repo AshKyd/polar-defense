@@ -2,7 +2,9 @@ var direction = 0;
 
 var exported = {
 	x: 0,
-	y: 0
+	y: 0,
+	h: 0,
+	max:0
 };
 module.exports = exported;
 
@@ -20,6 +22,9 @@ addEventListener('touchstart', function(e){
 });
 addEventListener('touchmove', function(e){
 	exported.x = e.targetTouches[0].clientX - touchStart.clientX;
+	var max = exported.max/2.5;
+	exported.x = m.min(max,m.max(0-max,exported.x));
+	exported.h = exported.x/(max/20)
 	exported.y = e.targetTouches[0].clientY - touchStart.clientY;
 	e.preventDefault();
 	return false;
@@ -35,10 +40,10 @@ addEventListener('touchend', function(e){
 
 addEventListener('keydown',function(e){
 	if(e.which == 37){
-		exported.x = -800;
+		exported.h = -6;
 	}
 	if(e.which == 39){
-		exported.x = +800;
+		exported.h = +6;
 	}
 	if(e.which == 32){
 		exported.click();
@@ -47,9 +52,9 @@ addEventListener('keydown',function(e){
 
 addEventListener('keyup',function(e){
 	if(e.which == 37){
-		exported.x += 800;
+		exported.h += 6;
 	}
 	if(e.which == 39){
-		exported.x -= 800;
+		exported.h -= 6;
 	}
 });
