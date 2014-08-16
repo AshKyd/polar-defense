@@ -1,13 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-<svg xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="638.12" width="638.12" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:dc="http://purl.org/dc/elements/1.1/">
-<defs>
-<radialGradient id="radialGradient2999" gradientUnits="userSpaceOnUse" cy="944.9" cx="802.55" gradientTransform="matrix(3.0588236,0,0,3.0588236,-2135.8096,-2571.2295)" r="104.63">
-<stop stop-color="#FFF" offset="0"/>
-<stop stop-color="#bef2fc" offset="0.34012"/>
-<stop stop-color="#00cdff" stop-opacity="0.79710144" offset="0.51276"/>
-<stop stop-color="#00cdff" stop-opacity="0" offset="1"/>
-</radialGradient>
-</defs>
-<path d="m638.12,319.05c0,176.21-142.85,319.07-319.07,319.07-176.21,0-319.07-142.85-319.07-319.07,0-176.21,142.85-319.07,319.07-319.07,176.21,0,319.07,142.85,319.07,319.07z" fill="url(#radialGradient2999)"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" height="638.12" width="638.12"><defs><radialGradient id="a" gradientUnits="userSpaceOnUse" cy="944.9" cx="802.55" gradientTransform="matrix(3.059 0 0 3.059 -2135.81 -2571.229)" r="104.63"><stop stop-color="#FFF" offset="0"/><stop stop-color="#bef2fc" offset=".34"/><stop stop-color="#00cdff" stop-opacity=".797" offset=".513"/><stop stop-color="#00cdff" stop-opacity="0" offset="1"/></radialGradient></defs><path d="M638.12 319.05c0 176.21-142.85 319.07-319.07 319.07C142.84 638.12-.02 495.27-.02 319.05-.02 142.84 142.83-.02 319.05-.02c176.21 0 319.07 142.85 319.07 319.07z" fill="url(#a)"/></svg>

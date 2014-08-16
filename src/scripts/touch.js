@@ -26,7 +26,7 @@ addEventListener('touchmove', function(e){
 });
 
 addEventListener('touchend', function(e){
-	if(Math.abs(exported.x) < 10 && Math.abs(exported.y) < 10){
+	if(m.abs(exported.x) < 10 && m.abs(exported.y) < 10){
 		exported.click();
 	}
 	exported.x = 0;
@@ -35,10 +35,10 @@ addEventListener('touchend', function(e){
 
 addEventListener('keydown',function(e){
 	if(e.which == 37){
-		exported.x = -1000;
+		exported.x = -800;
 	}
 	if(e.which == 39){
-		exported.x = +1000;
+		exported.x = +800;
 	}
 	if(e.which == 32){
 		exported.click();
@@ -47,9 +47,9 @@ addEventListener('keydown',function(e){
 
 addEventListener('keyup',function(e){
 	if(e.which == 37){
-		exported.x += 1000;
+		exported.x += 800;
 	}
 	if(e.which == 39){
-		exported.x -= 1000;
+		exported.x -= 800;
 	}
 });

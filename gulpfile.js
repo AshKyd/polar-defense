@@ -19,7 +19,7 @@ gulp.task('js', function() {
         // 		hoist_vars: true
         // 	}
         // }))
-        .pipe(gulp.dest('dist/scripts/'))
+        .pipe(gulp.dest('dist/scripts/'));
 });
 
 gulp.task('deploy',function(cb){

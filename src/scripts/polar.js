@@ -1,5 +1,4 @@
 var REVOLUTION = 360;
-var m = Math;
 
 var rad2deg = function(rad){
 	return rad / (m.PI/180);
@@ -40,9 +39,6 @@ pp.abs = function(){
 pp.rad = function(){
 	return deg2rad(this.d);
 }
-pp.clone = function(){
-	return new PolarCoordinate(this.r,this.d);
-};
 
 /**
  * Creates a cartesian coordinate
