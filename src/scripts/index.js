@@ -6,6 +6,7 @@ var draw = require('./canv');
 // 
 // Since we're going for size, alias 'Math' to 'm' globally.
 window.m = Math;
+window.t = setTimeout;
 
 var Sprite = require('./sprite');
 var sounds = require('./audio');
@@ -19,15 +20,16 @@ var Game = function(canv,opts){
 	var lives = 3;
 
 	for(var i=0;i<4;i++){
-		window.setTimeout(function(){
+		t(function(){
 			sounds.play('spooky');
-		},i*1000)
+		},i*1000);
 	}
 
 	var planet = max/(opts.size||15);
+	var lastFrame = performance.now();
 
 	var ctx = canv.getContext('2d');
-	var lastFrame = performance.now();
+	ctx.translate(max/2,max/2);
 
 	var sprites = [];
 
@@ -39,7 +41,9 @@ var Game = function(canv,opts){
 		if(r){
 			sprite.setpos(r,d);
 		}
+		var before = sprites.length;
 		sprites.push(sprite);
+		console.log(sprites.length);
 		return sprite;
 	}
 	Sprite.prototype.mkSprite = mkSprite;
@@ -64,6 +68,9 @@ var Game = function(canv,opts){
 
 	// Fire ur missilez!
 	touch.click = function(){
+		if(player.dead){
+			return;
+		}
 		mkSprite({
 			behaviour: 'missile1',
 			kinetic: true,
@@ -89,28 +96,8 @@ var Game = function(canv,opts){
 				dest: j*planet+planet*8,
 				dir: -1,
 				w: planet/2.5
-			},max*1.25+j*planet,i*4*m.PI);
+			},max*1.5+j*planet,i*4*m.PI);
 		}
-	}
-
-	ctx.translate(max/2,max/2);
-
-	function drawWorld(delta){
-		sprites = sprites.filter(function(sprite){
-			sprite.draw(delta,ctx);
-			if(sprite.cull && sprite.pos.r > max){
-				return false;
-			}
-			return !sprite.dead;
-		});
-
-		var crust = planet/4;
-		draw.circle(ctx, new Polar(0,0).toCartesian(),{
-			fill:'#00d400',
-			stroke:'#00aa00',
-			width:planet-crust/2,
-			w:crust
-		});
 	}
 
 	/**
@@ -157,35 +144,58 @@ var Game = function(canv,opts){
 		sounds.play('explode');
 	}
 
+	var gameovering = false;
+	function gameover(){
+		if(gameovering){
+			return;
+		}
+		sprites = sprites.filter(function(currentSprite){
+			return currentSprite.pos.r < max;
+		});
+		doomsdaying = 0;
+		gameovering = 1;
+		doomsday(max);
+
+		// explodeSprite(); // Explode planet.
+
+	}
+
 	/**
 	 * Detonate a doomsday device and clear out all enemies for a certain distance
 	 */
 	var doomsdaying = false;
 	function doomsday(distance){
-		if(doomsdaying){
+
+		if(doomsdaying){ // If already doomsdaying, don't do it again.
+			return;
+		} else if(!--lives){ // Decrement lives counter. When it's 0, game over.
+			gameover();
 			return;
 		}
-		doomsdaying = true;
-		sprites.forEach(function(currentSprite){
+
+		// Prevent doomsday happening twice at once.
+		doomsdaying = 1;
+		sprites.forEach(function(currentSprite,i){
+			// Kill all sprites within distance
 			if(currentSprite.kinetic && currentSprite.pos.r < distance){
-				window.setTimeout(function(){
+				t(function(){
 					explodeSprite(currentSprite);
-				}, (distance-planet)*10);
+				}, m.max(0,(currentSprite.pos.r-planet)*2+1500));
 			}
 		});
+
+		// Play some sounds. Three alerts then explosions everywhere!
 		for(var i=0; i<10; i++){
-			if(i<3){
-				window.setTimeout(function(){
-					sounds.play('siren');
-				},i*500);
-			}else {
-				window.setTimeout(function(){
-					sounds.play('explode');
-				},i*300);
-			}
+			sounds.play(i<3 ? 'siren' : 'explode',i*500);
 		}
-		window.setTimeout(function(){
-			doomsdaying = false;
+
+		// Set timeout so we can start again.
+		t(function(){
+			doomsdaying = gameovering;
+			if(lives){
+				player.dead = 0;
+				sprites.push(player);
+			}
 		},3000);
 	}
 
@@ -227,13 +237,27 @@ var Game = function(canv,opts){
 			}
 		});
 
-		if(dead){
-			if(lives){
-				doomsday(planet*3);
-			} else {
-				alert('Game over.');
-			}
+		if(dead || player.dead){
+			doomsday(planet*3);
 		}
+	}
+
+	function drawWorld(delta){
+		sprites = sprites.filter(function(sprite){
+			sprite.draw(delta,ctx);
+			if(sprite.cull && (sprite.pos.r > max*.75 || sprite.pos.r < planet/2)){
+				return false;
+			}
+			return !sprite.dead;
+		});
+
+		var crust = planet/4;
+		draw.circle(ctx, new Polar(0,0).toCartesian(),{
+			fill:'#00d400',
+			stroke:'#00aa00',
+			width:planet-crust/2,
+			w:crust
+		});
 	}
 
 	function render(){

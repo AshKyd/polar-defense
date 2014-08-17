@@ -15,6 +15,6 @@ module.exports = {
 			this.dead = true;
 		}
 
-		this.alpha = 1-m.min(this.elapsed,this.life)/this.life;
+		this.alpha = m.max(0,1-m.min(this.elapsed,this.life)/this.life);
 	}
 };

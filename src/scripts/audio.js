@@ -2,13 +2,13 @@ var jsfxr = require('../vendor/jsfxr.min.js');
 function ArcadeAudio() {
   this.sounds = {};
 }
-ArcadeAudio.prototype.play = function( key ) {
+ArcadeAudio.prototype.play = function( key, delay ) {
   var sound = this.sounds[ key ];
-  window.setTimeout(function(){
+  t(function(){
     var soundData = sound.length > 1 ? sound[ m.floor( m.random() * sound.length ) ] : sound[ 0 ];
     soundData.pool[ soundData.tick ].play();
     soundData.tick < soundData.count - 1 ? soundData.tick++ : soundData.tick = 0;
-  });
+  },delay);
 };
 
 // Start custom stuff.

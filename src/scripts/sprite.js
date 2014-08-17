@@ -92,7 +92,9 @@ sp.draw = function(delta, ctx){
 	}
 
 	ctx.save();
-	ctx.globalAlpha = this.alpha || 1;
+	if(!isNaN(this.alpha)){
+		ctx.globalAlpha = this.alpha;
+	}
 	if(img && img.width){
 		ctx.translate(xy.x,xy.y);
 		ctx.rotate(_this.pos.rad()+(m.PI/2));
