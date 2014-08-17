@@ -1,6 +1,6 @@
 module.exports = {
-	kinetic: true,
 	init: function(){
+		this.kinetic = 1;
 		this.src = 'missile1';
 		this.w = 10;
 	},

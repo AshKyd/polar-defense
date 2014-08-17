@@ -30,11 +30,6 @@ gulp.task('deploy',function(cb){
 	},cb);
 });
 
-gulp.task('img', function(){
-	gulp.src('src/img/*')
-		.pipe(gulp.dest('dist/img/'));
-});
-
 gulp.task('html', function(){
 	gulp.src('src/index.html')
 		.pipe(gulp.dest('dist/'));
@@ -53,12 +48,21 @@ gulp.task('zip',function(){
         .pipe(gulp.dest('./'))
     	.pipe(through(function(a){this.queue(a);},function(){
     		var max = 13312;
-    		var size = fs.statSync(__dirname+'/dist.zip').size;
-    		if(size > max){
-    			console.error('FILESIZE OVER: ',size);
-    		} else {
-    			console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+(max-size)+' bytes left.');
-    		}
+
+            // It occurs I don't know what I'm doing, and I con't care enough
+            // to find out right now.
+            setTimeout(function(){
+                try{
+            		var size = fs.statSync(__dirname+'/dist.zip').size;
+            		if(size > max){
+            			console.error('FILESIZE OVER: ',size);
+            		} else {
+            			console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+(max-size)+' bytes left.');
+            		}
+                } catch(e){
+                    
+                }
+            },200);
     	}));
 });
 
@@ -66,5 +70,5 @@ gulp.task('watch', function () {
 	gulp.watch(['src/index.html','src/**/*'], ['build']);
 });
 
-gulp.task('build',['js','img','html','zip']);
+gulp.task('build',['js','html','zip']);
 gulp.task('default',['build','connect','watch']);

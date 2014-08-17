@@ -17,7 +17,7 @@ var Game = function(canv,opts){
 	canv.width = max;
 	canv.height = max;
 
-	var lives = 3;
+	var lives = opts.lives||3;
 
 	for(var i=0;i<4;i++){
 		t(function(){
@@ -36,14 +36,13 @@ var Game = function(canv,opts){
 	// So this is weird, but I decided halfway through I want sprites to be able
 	// to spawn new sprites at will.
 	Sprite.prototype.max = max;
+	Sprite.prototype.planet = planet;
 	function mkSprite(opts,r,d){
 		var sprite = new Sprite(opts);
 		if(r){
 			sprite.setpos(r,d);
 		}
-		var before = sprites.length;
 		sprites.push(sprite);
-		console.log(sprites.length);
 		return sprite;
 	}
 	Sprite.prototype.mkSprite = mkSprite;
@@ -54,6 +53,17 @@ var Game = function(canv,opts){
 		w: planet*12,
 		kinetic:false
 	},-planet*6,0);
+
+
+
+	var crust = planet/4;
+	mkSprite({
+		kinetic:false,
+		fill:'#00d400',
+		stroke:'#00aa00',
+		w:planet-crust/2,
+		strokeWidth:crust
+	},0.001,0.001);
 
 	// 1p
 	var player = mkSprite({
@@ -74,8 +84,7 @@ var Game = function(canv,opts){
 		mkSprite({
 			behaviour: 'missile1',
 			kinetic: true,
-			cull: true,
-			w: planet
+			cull: true
 		},player.pos.r+player.h, player.pos.d);
 		sounds.play('shoot');
 	};
@@ -192,7 +201,7 @@ var Game = function(canv,opts){
 		// Set timeout so we can start again.
 		t(function(){
 			doomsdaying = gameovering;
-			if(lives){
+			if(lives>0){
 				player.dead = 0;
 				sprites.push(player);
 			}
@@ -232,7 +241,7 @@ var Game = function(canv,opts){
 				collisions.forEach(explodeSprite);
 			}
 
-			if(currentSprite.src != 'player' && currentSprite.pos.r <= planet){
+			if(currentSprite.invader && currentSprite.pos.r <= planet){
 				dead = true;
 			}
 		});
@@ -243,20 +252,23 @@ var Game = function(canv,opts){
 	}
 
 	function drawWorld(delta){
+		for(var i in sprites){
+			sprites[i].draw(delta,ctx);
+		}
 		sprites = sprites.filter(function(sprite){
-			sprite.draw(delta,ctx);
-			if(sprite.cull && (sprite.pos.r > max*.75 || sprite.pos.r < planet/2)){
-				return false;
+			if(sprite.cull){
+				if(sprite.pos.r > max*.75){
+					return false;
+				}
+				if(sprite.pos.r < planet){
+					if(sprite.kinetic){
+						explodeSprite(sprite);
+					} else {
+						return false;
+					}
+				}
 			}
 			return !sprite.dead;
-		});
-
-		var crust = planet/4;
-		draw.circle(ctx, new Polar(0,0).toCartesian(),{
-			fill:'#00d400',
-			stroke:'#00aa00',
-			width:planet-crust/2,
-			w:crust
 		});
 	}
 
@@ -266,8 +278,8 @@ var Game = function(canv,opts){
 
 		player.posInc(0,touch.h);
 		lastFrame = performance.now();
-		drawWorld(delta);
 		collisionDetection();
+		drawWorld(delta);
 
 		requestAnimationFrame(render);
 	}

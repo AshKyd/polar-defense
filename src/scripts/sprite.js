@@ -3,11 +3,14 @@ var draw = require('./canv');
 var Cartesian = p.cartesian;
 var Polar = p.polar;
 
+var images = require('../img/');
+var cache = {};
+
 var behaviours = {
 	particle: require('./bhv.particle'),
 	missile1: require('./bhv.missile1'),
 	inv1: require('./bhv.inv1'),
-	invmis: require('./bhv.invmiss'),
+	invmiss: require('./bhv.invmiss'),
 };
 
 /**
@@ -23,20 +26,24 @@ var Sprite = function(opts){
 		if(_this.b.init){
 			_this.b.init.call(this, opts);
 		}
-		_this.kinetic = _this.b.kinetic || _this.kinetic;
 	}
 	if(_this.src){
-		_this.img = document.createElement('img');
-		// Calculate the height based on the width provided.
-		_this.img.onload = function(){
-			_this.h = _this.img.height * (_this.w / _this.img.width);
-		};
-		_this.img.src = 'img/'+_this.src+'.svg';
+		_this.createImg(_this.src);
 	}
 };
 
 var sp = Sprite.prototype;
 
+sp.createImg = function(img, replace){
+	var _this = this;
+	_this.img = document.createElement('img');
+	// Calculate the height based on the width provided.
+	_this.img.onload = function(){
+		_this.h = _this.img.height * (_this.w / _this.img.width);
+	};
+	var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(images[img])));
+	_this.img.src = uri;
+};
 
 /**
  * Set the position.
@@ -81,15 +88,15 @@ sp.draw = function(delta, ctx){
 
 	// DEBUG STUFF. Display bounding boxes.
 	// Commented out because 13k.
-	if(this.kinetic){
-		var bb = _this.box();
-		draw.line(ctx,[
-			bb[0].toCartesian(),
-			new Polar(bb[0].r,bb[1].d).toCartesian(),
-			bb[1].toCartesian(),
-			new Polar(bb[1].r,bb[0].d).toCartesian()
-		]);
-	}
+	// if(this.kinetic){
+	// 	var bb = _this.box();
+	// 	draw.line(ctx,[
+	// 		bb[0].toCartesian(),
+	// 		new Polar(bb[0].r,bb[1].d).toCartesian(),
+	// 		bb[1].toCartesian(),
+	// 		new Polar(bb[1].r,bb[0].d).toCartesian()
+	// 	]);
+	// }
 
 	ctx.save();
 	if(!isNaN(this.alpha)){
@@ -108,7 +115,10 @@ sp.draw = function(delta, ctx){
 	} else {
 		draw.circle(ctx,_this.pos.toCartesian(),{
 			width: _this.w,
-			fill: _this.fill || '#fff'
+			fill: _this.fill || '#fff',
+			stroke: _this.stroke,
+			width: _this.w,	
+			w: _this.strokeWidth
 		});
 	}
 	ctx.restore();

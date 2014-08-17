@@ -1,7 +1,9 @@
 var sounds = require('./audio');
+var lastMissile = 0;
 module.exports = {
-	kinetic: true,
 	init: function(){
+		this.kinetic = 1;
+		this.invader = 1;
 	},
 	tick: function(delta){
 		var amount = this.max/60;
@@ -9,18 +11,17 @@ module.exports = {
 			this.posInc(-delta/200*amount,0);
 		} else {
 			this.posInc(-delta/2000*amount,this.dir*delta/2000*amount);
-			if(m.random()>0.999){
+
+			if(!lastMissile || performance.now() - lastMissile > 5000){
 				sounds.play('shoot');
 				console.log('creating invmis');
+				lastMissile = performance.now();
 
 				this.mkSprite({
-					behaviour: 'inv1',
-					src: 'invader2',
-					kinetic: false,
-					dest:9999,
-					cull: false,
-					w: 100
-				},this.pos.r-100, this.pos.d);
+					behaviour: 'invmiss',
+					cull:1
+				},this.pos.r, this.pos.d);
+
 			}
 		}
 	}
