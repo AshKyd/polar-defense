@@ -41,7 +41,13 @@ sp.createImg = function(img, replace){
 	_this.img.onload = function(){
 		_this.h = _this.img.height * (_this.w / _this.img.width);
 	};
-	var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(images[img])));
+	var imgContents = images[img];
+	if(_this.colors){
+		for(var original in _this.colors){
+			imgContents = imgContents.replace(new RegExp(original,'g'),_this.colors[original]);
+		}
+	}
+	var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(imgContents)));
 	_this.img.src = uri;
 };
 

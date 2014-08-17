@@ -19,12 +19,6 @@ var Game = function(canv,opts){
 
 	var lives = opts.lives||3;
 
-	for(var i=0;i<4;i++){
-		t(function(){
-			sounds.play('spooky');
-		},i*1000);
-	}
-
 	var planet = max/(opts.size||15);
 	var lastFrame = performance.now();
 
@@ -48,16 +42,15 @@ var Game = function(canv,opts){
 	Sprite.prototype.mkSprite = mkSprite;
 
 	// Halo around the planet. Static image.
-	mkSprite({
+	var planetHalo = mkSprite({
 		src: 'halo',
 		w: planet*12,
 		kinetic:false
 	},-planet*6,0);
 
 
-
 	var crust = planet/4;
-	mkSprite({
+	var planetSprite = mkSprite({
 		kinetic:false,
 		fill:'#00d400',
 		stroke:'#00aa00',
@@ -71,6 +64,7 @@ var Game = function(canv,opts){
 		w: planet/2.5,
 		kinetic:true
 	},planet*0.95,0);
+	sounds.play('respawn');
 
 	// Import touch stuff.
 	var touch = require('./touch');
@@ -89,31 +83,43 @@ var Game = function(canv,opts){
 		sounds.play('shoot');
 	};
 
-	for(var i=0; i<10; i++){
-		for(var j=0; j<3; j++){
-			mkSprite({
-				behaviour: 'inv1',
-				src: 'invader',
-				dest: j*planet+planet*5,
-				dir:1,
-				w: planet/2.5
-			},max+j*planet,i*4*m.PI);
+	var waveNum = 0;
+	function newWave(){
+		for(var i=0; i<10; i++){
+			for(var j=0; j<3; j++){
+				mkSprite({
+					behaviour: 'inv1',
+					dest: j*planet+planet*5,
+					dir:1,
+					w: planet/2.5,
+					color: 'yellow'
+				},max+j*planet,i*4*m.PI);
 
-			mkSprite({
-				behaviour: 'inv1',
-				src: 'invader2',
-				dest: j*planet+planet*8,
-				dir: -1,
-				w: planet/2.5
-			},max*1.5+j*planet,i*4*m.PI);
+				mkSprite({
+					behaviour: 'inv1',
+					dest: j*planet+planet*8,
+					dir: -1,
+					w: planet/2.5,
+					color: 'purple'
+				},max*1.5+j*planet,i*4*m.PI);
+
+				mkSprite({
+					behaviour: 'inv1',
+					dest: j*planet+planet*13,
+					dir: j%2 === 0 ? 1 : -1,
+					w: planet/2.5,
+					color: 'green'
+				},max*1.5+j*planet,i*4*m.PI);
+			}
 		}
 	}
+	newWave();
 
 	/**
 	 * Explode a sprite in a most dramatic fashion.
 	 * @param  {Sprite} sprite The sprite to explode
 	 */
-	function explodeSprite(sprite,subtlety){
+	function explodeSprite(sprite,subtlety,width){
 		if(sprite.dead){
 			return;
 		}
@@ -123,25 +129,25 @@ var Game = function(canv,opts){
 				behaviour:'particle',
 				kinetic: false,
 				fill: m.random > 0.5 ? '#222' : '#333',
-				w: planet/8,
+				w: sprite.w/2 || planet/8,
 				life: m.random()*2000+1000,
 				pos: new Polar(sprite.pos.r,sprite.pos.d),
-				momentum: [(m.random()-.5)/10,m.random()-0.5]
+				momentum: [(m.random()-.5)/10,(m.random()-0.5)]
 			});
 		}
-		if(subtlety){
+		if(subtlety === true){
 			return;
 		}
-		for(var i=0; i<10; i++){
+		for(var i=0; i<(subtlety||10); i++){
 			mkSprite({
 				behaviour:'particle',
 				life: m.random()*1000+1000,
-				w: m.random()*(planet/8),
+				w: m.random()*(sprite.w/2 || planet/8),
 				pos: new Polar(sprite.pos.r,sprite.pos.d),
-				momentum: [(m.random()-.5)/5,m.random()-0.5]
+				momentum: [(m.random()-.5)/5,(m.random()-0.5)]
 			});
 		}
-		for(var i=0; i<10; i++){
+		for(var i=0; i<(subtlety||10); i++){
 			mkSprite({
 				behaviour:'particle',
 				kinetic: i<3,
@@ -165,7 +171,17 @@ var Game = function(canv,opts){
 		gameovering = 1;
 		doomsday(max);
 
-		// explodeSprite(); // Explode planet.
+		explodeSprite(planetSprite,40);
+
+		planetHalo.alpha = 1;
+		var haloFade = setInterval(function(){
+			planetHalo.alpha -= .025;
+			if(planetHalo.alpha <=0){
+				planetHalo.alpha = 0;
+				planetHalo.dead = 1;
+				clearInterval(haloFade);
+			}
+		},20);
 
 	}
 
@@ -204,6 +220,7 @@ var Game = function(canv,opts){
 			if(lives>0){
 				player.dead = 0;
 				sprites.push(player);
+				sounds.play('respawn');
 			}
 		},3000);
 	}
@@ -255,6 +272,8 @@ var Game = function(canv,opts){
 		for(var i in sprites){
 			sprites[i].draw(delta,ctx);
 		}
+
+		var invaders = 0;
 		sprites = sprites.filter(function(sprite){
 			if(sprite.cull){
 				if(sprite.pos.r > max*.75){
@@ -268,8 +287,16 @@ var Game = function(canv,opts){
 					}
 				}
 			}
+			// Count up our invaders.
+			if(sprite.invader){
+				invaders++;
+			}
 			return !sprite.dead;
 		});
+
+		if(!player.dead && invaders < opts.waves[waveNum].proceedAfter){
+			newWave();
+		}
 	}
 
 	function render(){
@@ -289,5 +316,11 @@ var Game = function(canv,opts){
 };
 
 window.onload = function(){
-	new Game(document.querySelector('#c'));
+	new Game(document.querySelector('#c'),{
+		waves: [
+			{
+				proceedAfter: 5
+			}
+		]
+	});
 };
