@@ -310,7 +310,12 @@ var Game = function(canv,opts){
 		ctx.font = '20px Arial';
 		ctx.fillStyle = '#fff';
 		ctx.fillText("Score: "+score, -max/2+10, -max/2+30);
-		ctx.fillText("Lives: "+m.max(lives,0), -max/2+10, -max/2+60);
+		var livesText = '';
+		ctx.font = '30px Arial';
+		for(var i=0;i<lives;i++){
+			livesText += '♥ ';
+		}
+		ctx.fillText(livesText, -max/2+10, -max/2+60);
 	}
 
 	function render(){
