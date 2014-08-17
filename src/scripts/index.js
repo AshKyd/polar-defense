@@ -2,6 +2,7 @@ var p = require('./polar');
 var Cartesian = p.cartesian;
 var Polar = p.polar;
 var draw = require('./canv');
+var campaign = require('../campaign');
 // Unicodes worth looking at ☢☣☠
 // 
 // Since we're going for size, alias 'Math' to 'm' globally.
@@ -12,12 +13,13 @@ var Sprite = require('./sprite');
 var sounds = require('./audio');
 
 var Game = function(canv,opts){
-	opts = opts ||{};
+	opts = opts || {};
 	var max = m.min(innerHeight,innerWidth);
+	var score = opts.score || 0;
 	canv.width = max;
 	canv.height = max;
 
-	var lives = opts.lives||3;
+	var lives = opts.lives || 3;
 
 	var planet = max/(opts.size||15);
 	var lastFrame = performance.now();
@@ -84,34 +86,27 @@ var Game = function(canv,opts){
 	};
 
 	var waveNum = 0;
+	/**
+	 * Spawn a new wave of invaders.
+	 */
 	function newWave(){
-		for(var i=0; i<10; i++){
-			for(var j=0; j<3; j++){
-				mkSprite({
-					behaviour: 'inv1',
-					dest: j*planet+planet*5,
-					dir:1,
-					w: planet/2.5,
-					color: 'yellow'
-				},max+j*planet,i*4*m.PI);
-
-				mkSprite({
-					behaviour: 'inv1',
-					dest: j*planet+planet*8,
-					dir: -1,
-					w: planet/2.5,
-					color: 'purple'
-				},max*1.5+j*planet,i*4*m.PI);
-
-				mkSprite({
-					behaviour: 'inv1',
-					dest: j*planet+planet*13,
-					dir: j%2 === 0 ? 1 : -1,
-					w: planet/2.5,
-					color: 'green'
-				},max*1.5+j*planet,i*4*m.PI);
+		opts.waves[waveNum++].sprites.forEach(function(wave){
+			for(var i=0; i<wave.rows; i++){
+				for(var j=0; j<wave.cols; j++){
+					mkSprite({
+						behaviour: wave.behaviour,
+						src: wave.src,
+						dest: j*planet+planet*wave.dest,
+						dir:wave.dir,
+						w: planet/wave.w,
+						color: wave.color,
+						speedModR: wave.speedModR,
+						speedModD: wave.speedModD,
+						missileInterval: wave.missileInterval
+					},max*wave.start+j*planet,i*4*m.PI);
+				}
 			}
-		}
+		});
 	}
 	newWave();
 
@@ -157,6 +152,9 @@ var Game = function(canv,opts){
 			});
 		}
 		sounds.play('explode');
+		if(sprite.score){
+			score += sprite.score;
+		}
 	}
 
 	var gameovering = false;
@@ -171,17 +169,20 @@ var Game = function(canv,opts){
 		gameovering = 1;
 		doomsday(max);
 
-		explodeSprite(planetSprite,40);
+		t(function(){
+			sounds.play('gameover');
+			explodeSprite(planetSprite,40);
 
-		planetHalo.alpha = 1;
-		var haloFade = setInterval(function(){
-			planetHalo.alpha -= .025;
-			if(planetHalo.alpha <=0){
-				planetHalo.alpha = 0;
-				planetHalo.dead = 1;
-				clearInterval(haloFade);
-			}
-		},20);
+			planetHalo.alpha = 1;
+			var haloFade = setInterval(function(){
+				planetHalo.alpha -= .025;
+				if(planetHalo.alpha <=0){
+					planetHalo.alpha = 0;
+					planetHalo.dead = 1;
+					clearInterval(haloFade);
+				}
+			},20);
+		});
 
 	}
 
@@ -237,6 +238,13 @@ var Game = function(canv,opts){
 			if(!currentSprite.kinetic){
 				return;
 			}
+			if(currentSprite.invader && currentSprite.pos.r <= planet){
+				dead = true;
+
+				// Don't count invaders that hit the planet as having got through.
+				currentSprite.score = 0;
+				return;
+			}
 			var thisBox = currentSprite.box();
 			var collisions = sprites.filter(function(thatSprite){
 				if(!thatSprite.kinetic || thatSprite.behaviour == currentSprite.behaviour){
@@ -257,10 +265,6 @@ var Game = function(canv,opts){
 				currentSprite.dead = true;
 				collisions.forEach(explodeSprite);
 			}
-
-			if(currentSprite.invader && currentSprite.pos.r <= planet){
-				dead = true;
-			}
 		});
 
 		if(dead || player.dead){
@@ -274,29 +278,39 @@ var Game = function(canv,opts){
 		}
 
 		var invaders = 0;
-		sprites = sprites.filter(function(sprite){
-			if(sprite.cull){
-				if(sprite.pos.r > max*.75){
+		sprites = sprites.filter(function(currentSprite){
+			if(currentSprite.cull){
+				if(currentSprite.pos.r > max*.75){
+					currentSprite.score = 0;
 					return false;
 				}
-				if(sprite.pos.r < planet){
-					if(sprite.kinetic){
-						explodeSprite(sprite);
+				if(currentSprite.pos.r < planet){
+					currentSprite.score = 0;
+					if(currentSprite.kinetic){
+						explodeSprite(currentSprite);
 					} else {
 						return false;
 					}
 				}
 			}
 			// Count up our invaders.
-			if(sprite.invader){
+			if(currentSprite.invader){
 				invaders++;
 			}
-			return !sprite.dead;
+			return !currentSprite.dead;
 		});
 
-		if(!player.dead && invaders < opts.waves[waveNum].proceedAfter){
+		if(!player.dead && opts.waves[waveNum] && invaders < opts.waves[waveNum].proceedAfter){
 			newWave();
+			if(!opts.waves[waveNum]){
+				waveNum = 0;
+			}
 		}
+
+		ctx.font = '20px Arial';
+		ctx.fillStyle = '#fff';
+		ctx.fillText("Score: "+score, -max/2+10, -max/2+30);
+		ctx.fillText("Lives: "+m.max(lives,0), -max/2+10, -max/2+60);
 	}
 
 	function render(){
@@ -316,11 +330,6 @@ var Game = function(canv,opts){
 };
 
 window.onload = function(){
-	new Game(document.querySelector('#c'),{
-		waves: [
-			{
-				proceedAfter: 5
-			}
-		]
-	});
+	var canvas = document.querySelector('#c');
+	new Game(canvas,campaign[0]);
 };

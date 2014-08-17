@@ -38,6 +38,8 @@ addEventListener('touchend', function(e){
 	exported.y = 0;
 });
 
+
+var firing = false;
 addEventListener('keydown',function(e){
 	if(e.which == 37){
 		exported.h = -6;
@@ -45,8 +47,9 @@ addEventListener('keydown',function(e){
 	if(e.which == 39){
 		exported.h = +6;
 	}
-	if(e.which == 32){
+	if(e.which == 32 && !firing){
 		exported.click();
+		firing = true;
 	}
 });
 
@@ -56,5 +59,8 @@ addEventListener('keyup',function(e){
 	}
 	if(e.which == 39){
 		exported.h -= 6;
+	}
+	if(e.which == 32){
+		firing = false;
 	}
 });
