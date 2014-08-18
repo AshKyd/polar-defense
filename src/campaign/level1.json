@@ -1,89 +1,41 @@
 {
+    "title": "A fleet approaches",
+    "spiel": "<p>Blips on the radar show a massive fleet of alien craft incoming, and these energy signatures aren't looking so friendly…</p><p>Due to recent budget cuts I'm afraid it's up to you to save the planet.</p>",
+    "spielM": "<p>Swipe left and right to move, and tap to&nbsp;fire!</p>",
+    "spielD": "<p>Use your arrow keys to move, and space to&nbsp;fire!</p>",
+    "size":10,
+    "fill":"yellow",
+    "stroke":"orange",
+    "r": 1.25,
     "waves": [{
-        "proceedAfter": 5,
-        "sprites": [{
-            "rows": 8,
-            "cols": 3,
-            "behaviour": "inv1",
-            "src": "invader",
-            "dest": 5,
-            "dir": 1,
-            "w": 2.5,
-            "color": "yellow",
-            "start": 1
-        }]
-    }, {
-        "proceedAfter": 15,
-        "sprites": [{
-            "rows": 12,
-            "cols": 2,
-            "behaviour": "inv1",
-            "src": "invader",
-            "dest": 5,
-            "dir": 1,
-            "w": 2.5,
-            "color": "yellow",
-            "start": 1
-        }, {
-            "rows": 12,
-            "cols": 2,
-            "behaviour": "inv1",
-            "src": "invader",
-            "dest": 8,
-            "dir": -1,
-            "w": 2.5,
-            "color": "purple",
-            "start": 1.5
-        }]
-    }, {
-        "proceedAfter": 15,
-        "sprites": [{
-            "rows": 7,
-            "cols": 2,
-            "behaviour": "inv1",
-            "src": "invader2",
-            "dest": 6,
-            "dir": 1,
-            "w": 3.5,
-            "color": "green",
-            "start": 1,
-            "speedModR": 1.5
-        }, {
-            "rows": 7,
-            "cols": 2,
-            "behaviour": "inv1",
-            "src": "invader2",
-            "dest": 7,
-            "dir": -1,
-            "w": 3.5,
-            "color": "green",
-            "start": 1.2,
-            "speedModR": 1.5
-        }]
-    }, {
         "proceedAfter": 1,
+        "flash":false,
         "sprites": [{
-            "rows": 12,
-            "cols": 4,
+            "rows": 2,
+            "cols": 2,
             "behaviour": "inv1",
             "src": "invader",
             "dest": 5,
-            "dir": -1,
+            "dir": 1,
             "w": 2.5,
             "color": "yellow",
             "start": 1,
-            "missileInterval": 2000
-        }, {
-            "rows": 12,
-            "cols": 4,
+            "missileInterval": 10000
+        }]
+    },{
+        "proceedAfter": 0,
+        "flash":true,
+        "sprites": [{
+            "rows": 2,
+            "cols": 2,
             "behaviour": "inv1",
             "src": "invader",
-            "dest": 8,
+            "dest": 5,
             "dir": 1,
             "w": 2.5,
-            "color": "purple",
-            "start": 1.5,
-            "missileInterval": 2000
+            "color": "yellow",
+            "start": 1,
+            "missileInterval": 10000
         }]
     }]
 }

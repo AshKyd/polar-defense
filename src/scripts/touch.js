@@ -24,7 +24,7 @@ addEventListener('touchmove', function(e){
 	exported.x = e.targetTouches[0].clientX - touchStart.clientX;
 	var max = exported.max/2.5;
 	exported.x = m.min(max,m.max(0-max,exported.x));
-	exported.h = exported.x/(max/20)
+	exported.h = exported.x/(max/20);
 	exported.y = e.targetTouches[0].clientY - touchStart.clientY;
 	e.preventDefault();
 	return false;
@@ -38,8 +38,16 @@ addEventListener('touchend', function(e){
 	exported.y = 0;
 });
 
+addEventListener('mouseup', function(e){
+	if(e.srcElement.nodeName === 'A'){
+		return;
+	}
+	exported.click();
+});
+
 
 var firing = false;
+var fireKeys = [32,27];
 addEventListener('keydown',function(e){
 	if(e.which == 37){
 		exported.h = -6;
@@ -47,7 +55,7 @@ addEventListener('keydown',function(e){
 	if(e.which == 39){
 		exported.h = +6;
 	}
-	if(e.which == 32 && !firing){
+	if(fireKeys.indexOf(e.which) != -1 && !firing){
 		exported.click();
 		firing = true;
 	}
@@ -60,7 +68,7 @@ addEventListener('keyup',function(e){
 	if(e.which == 39){
 		exported.h -= 6;
 	}
-	if(e.which == 32){
+	if(fireKeys.indexOf(e.which) != -1){
 		firing = false;
 	}
 });

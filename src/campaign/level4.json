@@ -1,0 +1,171 @@
+{
+    "title": "Pack your bags!",
+    "spiel": "<p>It looks like the invaders are trying a new tactic, invading our penal colony on Europa, Jupiter's fourth-largest moon.</p><p>Did you know the surface of Europa is covered in an icy ocean?</p><p>It also has a thin oxygen atmosphere, which makes it the perfect location to send petty thieves and the like.</p>",
+    "size":15,
+    "fill":"#0055d4",
+    "stroke":"#214478",
+    "r": 0.95,
+    "waves": [{
+        "proceedAfter": 1,
+        "sprites": [{
+            "rows": 15,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 5,
+            "dir": -1,
+            "w": 2.5,
+            "color": "blue",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 15,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 8,
+            "dir": 1,
+            "w": 2.5,
+            "color": "teal",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    },{
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 7,
+            "cols": 2,
+            "behaviour": "inv1",
+            "src": "invader2",
+            "dest": 6,
+            "dir": 1,
+            "w": 3.5,
+            "color": "purple",
+            "start": 1,
+            "speedModR": 2,
+            "missileInterval": 2000
+        }, {
+            "rows": 7,
+            "cols": 5,
+            "behaviour": "inv1",
+            "src": "invader2",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "purple",
+            "start": 1.2,
+            "speedModR": 2,
+            "missileInterval": 2000
+        }]
+    }, {
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 16,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 5,
+            "dir": -1,
+            "w": 3.5,
+            "color": "teal",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 16,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 8,
+            "dir": 1,
+            "w": 3.5,
+            "color": "blue",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    },{
+        "proceedAfter": 1,
+        "sprites": [{
+            "rows": 15,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 5,
+            "dir": -1,
+            "w": 2.5,
+            "color": "blue",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 15,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 8,
+            "dir": 1,
+            "w": 2.5,
+            "color": "teal",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    },{
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 7,
+            "cols": 2,
+            "behaviour": "inv1",
+            "src": "invader2",
+            "dest": 6,
+            "dir": 1,
+            "w": 3.5,
+            "color": "purple",
+            "start": 1,
+            "speedModR": 2,
+            "missileInterval": 2000
+        }, {
+            "rows": 7,
+            "cols": 5,
+            "behaviour": "inv1",
+            "src": "invader2",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "purple",
+            "start": 1.2,
+            "speedModR": 2,
+            "missileInterval": 2000
+        }]
+    }, {
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 20,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 5,
+            "dir": -1,
+            "w": 3.5,
+            "color": "teal",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 20,
+            "cols": 4,
+            "behaviour": "inv1",
+            "src": "invader",
+            "dest": 8,
+            "dir": 1,
+            "w": 3.5,
+            "color": "blue",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    }]
+}
