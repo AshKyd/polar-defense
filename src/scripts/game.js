@@ -4,6 +4,7 @@ var Polar = p.polar;
 var draw = require('./canv');
 var Sprite = require('./sprite');
 var sounds = require('./audio');
+var colors = require('./colors');
 
 var Game = function(canv,opts){
 	opts = opts || {};
@@ -86,15 +87,18 @@ var Game = function(canv,opts){
 	 */
 	var newGaming = false;
 	function newWave(invadersRemaining){
+		if(opts.level.waves == 'zen'){
+			return zenWave(invadersRemaining);
+		}
 		var nextWave = opts.level.waves[waveNum];
-		if(newGaming || (nextWave && invadersRemaining > nextWave.proceedAfter) || (invadersRemaining > 0)){
+		if(newGaming || (nextWave && invadersRemaining > nextWave.proceedAfter) || (!nextWave && invadersRemaining > 0)){
 			return;
 		}
 		if(!nextWave){
 			newGaming = true;
 			window.setTimeout(function(){
 				paused = true;
-				opts.nextLevel();
+				opts.nextLevel(getStats());
 			},5000);
 			return;
 		}
@@ -108,7 +112,7 @@ var Game = function(canv,opts){
 					for(var k in wave){
 						conf[k] = wave[k];
 					}
-
+					conf.behaviour = 'inv1';
 					conf.dest = j*offset+offset*conf.dest;
 					conf.w = offset/conf.w;
 					mkSprite(conf,max*wave.start+j*offset,i*4*m.PI);
@@ -117,7 +121,55 @@ var Game = function(canv,opts){
 		});
 		waveNum++;
 	}
+
+	function zenWave(invadersRemaining){
+		waveNum = m.min(waveNum,200);
+		if(invadersRemaining > waveNum/3){
+			return;
+		}
+		var colorKey = Object.keys(colors);
+
+		// console.table([0,10,20,30,40,50,60,70,80,90,100,200].map(function(waveNum){
+
+			var modifier = (waveNum++)/100;
+			var cols = (10*modifier)+4;
+			var rows = (5*modifier)+1+m.round(m.random());
+			var color = colorKey[m.round(m.random()*(colorKey.length-1))];
+			var dir = m.round(m.random()*3)-2;
+			for(var i=0; i<cols; i++){
+				var rowOffset = 5;
+				for(var j=0; j<rows; j++){
+					var conf = {
+						behaviour:'inv1',
+						dest:j*offset+offset*5+j,
+						w: (offset/2.5)*(1-(modifier/4)),
+			            src: "invader",
+			            dir: dir,
+			            color: color,
+			            start: 1,
+			            rows:rows,
+			            cols:cols,
+			            missileInterval: 5000/((1+modifier))/(!dir?2:1)
+					};
+					mkSprite(conf,max+j*offset,i*4*m.PI+0.5);
+				}
+			}
+
+			return conf;
+		// }));
+		// throw 'exit';
+	}
 	newWave();
+
+	function getStats(){
+		return {
+			score: score,
+			waveNum: waveNum,
+			gameType: opts.level.waves === 'zen' ? 'zen' : 'campaign',
+			levelNum: opts.levelNum,
+			lives: lives
+		}
+	}
 
 
 	/**
@@ -169,8 +221,6 @@ var Game = function(canv,opts){
 			}
 			return;
 		}
-		
-
 		sprite.dead = true;
 
 		for(var i=0; i<5; i++){
@@ -184,7 +234,11 @@ var Game = function(canv,opts){
 				momentum: [(m.random()-.5)/10,(m.random()-0.5)]
 			});
 		}
+		if(sprite.score){
+			score += sprite.score;
+		}
 		if(subtlety === true){
+			sprite.die();
 			return;
 		}
 		for(var i=0; i<(subtlety||10); i++){
@@ -207,7 +261,17 @@ var Game = function(canv,opts){
 		}
 		sounds.play(sprite.sound||'explode');
 		if(sprite.score){
-			score += sprite.score;
+			mkSprite({
+				behaviour:'particle',
+				kinetic: false,
+				stroke:'#fff',
+				text: sprite.score,
+				textSize:12,
+				w: 15,
+				life: 800,
+				pos: sprite.pos,
+				momentum: [-.01,0]
+			});
 		}
 	}
 
@@ -257,9 +321,12 @@ var Game = function(canv,opts){
 			return;
 		}
 
+		// FIXME: Remove after beta.
+		log('doomsday',getStats());
+
 		// Prevent doomsday happening twice at once.
 		doomsdaying = 1;
-		opts.rumble();
+		
 		sprites.forEach(function(currentSprite,i){
 			// Kill all sprites within distance
 			if(currentSprite.kinetic && currentSprite.pos.r < distance){
@@ -273,6 +340,24 @@ var Game = function(canv,opts){
 		for(var i=0; i<3; i++){
 			sounds.play('siren',i*500);
 		}
+		t(function(){
+			sounds.play('boom');
+			opts.rumble();
+			['☢','☠','☢','☢','☠','☢'].forEach(function(icon){
+				mkSprite({
+					behaviour:'particle',
+					kinetic: false,
+					stroke:'#fff',
+					text: icon,
+					textSize:m.random()*30+30,
+					w: 100,
+					life: 1500,
+					pos: new Polar(planet/2,m.random()*360),
+					momentum: [m.random()/10,m.random()-.5]
+				});
+			});
+			
+		},1500);
 
 		// Set timeout so we can start again.
 		t(function(){
@@ -322,7 +407,7 @@ var Game = function(canv,opts){
 			});
 			if(collisions.length){
 				if(!deHp(currentSprite)){
-					currentSprite.dead = true;
+					explodeSprite(currentSprite);
 				}
 				collisions.forEach(explodeSprite);
 			}

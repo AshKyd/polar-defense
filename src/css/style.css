@@ -39,6 +39,7 @@ div.visible{
 div h1{
     margin-bottom:.5em;
     text-align:center;
+    font-variant:small-caps;
 }
 div p{
     line-height:1.5;
@@ -63,6 +64,8 @@ a.menu{
     max-width:12em;
     margin:0 auto .25em;
     cursor:pointer;
+    position:relative;
+    transition:all .25s;
 }
 a.menu:hover,
 a.menu:focus{
@@ -70,15 +73,26 @@ a.menu:focus{
     border-color:#fff;
 }
 
+a span{
+    position:absolute;
+    font-size:1.5em;
+    margin-top:-.25em;
+    left:.5em;
+    display:inline-block;
+    width:1em;
+    text-align:center;
+    transition:all .25s;
+    color:white;
+}
+a:hover span{
+    color:#1dff00;
+}
+
 
 .warn {
     -webkit-animation-name: warn;
     -webkit-animation-duration: 2s;
     -webkit-animation-iteration-count: 3;
-
-    -moz-animation-name: warn;
-    -moz-animation-duration: 2s;
-    -moz-animation-iteration-count: 3;
 
     animation-name: warn;
     animation-duration: 2s;
@@ -91,19 +105,9 @@ a.menu:focus{
     -webkit-animation-duration: .25s;
     -webkit-animation-iteration-count: 2;
 
-    -moz-animation-name: rumble;
-    -moz-animation-duration: .25s;
-    -moz-animation-iteration-count: 2;
-
     animation-name: rumble;
     animation-duration: .25s;
     animation-iteration-count: 2;
-}
-
-@-moz-keyframes warn {  
-    0% { box-shadow:inset 0 0 50px black; }
-    50% { box-shadow: inset 0 0 50px red; }
-    100% { box-shadow: inset 0 0 50px black; }
 }
 
 @-webkit-keyframes warn {  
@@ -119,14 +123,6 @@ a.menu:focus{
 }
 
 @-webkit-keyframes rumble {
-    0% {-webkit-transform: rotate(0deg);}
-    25% {-webkit-transform: translate(10px, 0px);}
-    50% {-webkit-transform: translate(0px, -8px);}
-    75% {-webkit-transform: translate(-5px, 0px);}
-    100% {-webkit-transform: translate(0px, 2px);} 
-}
-
-@-moz-keyframes rumble {
     0% {-webkit-transform: rotate(0deg);}
     25% {-webkit-transform: translate(10px, 0px);}
     50% {-webkit-transform: translate(0px, -8px);}

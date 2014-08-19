@@ -1,19 +1,6 @@
 var sounds = require('./audio');
 var lastMissile = 0;
-var colors = {
-	yellow: {
-		'#f00': '#ff0',
-		'#800000': '#ff9e2a'
-	},
-	purple: {
-		'#f00': '#8800ff',
-		'#800000': '#000088'
-	},
-	green: {
-		'#f00': '#1dff00',
-		'#800000': '#11aa00'
-	}
-};
+var colors = require('./colors');
 module.exports = {
 	init: function(opts){
 		this.src = this.src || 'invader';

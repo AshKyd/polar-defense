@@ -1,9 +1,9 @@
 {
-    "title": "A transmission from Jupiter:",
-    "spiel": "<p>It looks like the invaders are invading our colony on Europa, Jupiter's fourth-largest moon.</p><p>Did you know the surface of Europa is covered in an icy ocean?</p><p>It also has a thin oxygen atmosphere <small>(too thin to breathe, alas)</small>, making it a great location to send petty criminals to manufacture license plates!</p>",
-    "size":15,
-    "fill":"#0055d4",
-    "stroke":"#214478",
+    "title": "Hey, I just terraformed that!",
+    "spiel": "<p>The scoundrel invaders are wreaking havoc on Mars, making the red planet even redder!</p><p>You're on fire with the controls, so go help put out the planet.</p>",
+    "size":11,
+    "fill":"#f00",
+    "stroke":"#800",
     "r": 0.95,
     "waves": [{
         "proceedAfter": 1,

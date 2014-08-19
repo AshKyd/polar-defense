@@ -9,11 +9,14 @@ files.forEach(function(file){
 
 	// These are kinda useless so let's get rid of 'em.
 	['stroke-linecap','stroke-linejoin'].forEach(function(attr){
-		fileContents = fileContents.replace(new RegExp(' attr="[^"]+"'));
+		fileContents = fileContents.replace(new RegExp(' '+attr+'="[^"]+"','g'),'');
 	});
 
+	fileContents = fileContents.replace(/#800000/,'#800');
 
-	pkg[file.replace('.svg','')] = fileContents;
+	pkg[file.replace('.svg','')] = fileContents//.match(/^<svg[^>]>$/);
 });
 
 fs.writeFileSync('index.js','module.exports = '+JSON.stringify(pkg));
+
+//3.21

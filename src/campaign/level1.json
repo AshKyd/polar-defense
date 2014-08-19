@@ -1,11 +1,11 @@
 {
     "title": "A fleet approaches",
-    "spiel": "<p>Blips on the radar show a massive fleet of alien craft incoming, and these energy signatures aren't looking so friendly…</p><p>Due to recent budget cuts I'm afraid it's up to you to save the planet.</p>",
+    "spiel": "<p>Blips on the radar show an alien fleet incoming, and these energy signatures aren't looking so friendly…</p><p>Due to recent budget cuts I'm afraid it's up to you to save the planet.</p>",
     "spielM": "<p>Swipe left and right to move, and tap to&nbsp;fire!</p>",
     "spielD": "<p>Use your arrow keys to move, and space to&nbsp;fire!</p>",
     "size":10,
-    "fill":"yellow",
-    "stroke":"orange",
+    "fill":"#00d400",
+    "stroke":"#00aa00",
     "r": 1.25,
     "waves": [{
         "proceedAfter": 1,
@@ -13,27 +13,24 @@
         "sprites": [{
             "rows": 2,
             "cols": 2,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 5,
             "dir": 1,
             "w": 2.5,
-            "color": "yellow",
+            "color": "y",
             "start": 1,
             "missileInterval": 10000
         }]
     },{
         "proceedAfter": 0,
-        "flash":true,
         "sprites": [{
             "rows": 2,
             "cols": 2,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 5,
             "dir": 1,
             "w": 2.5,
-            "color": "yellow",
+            "color": "y",
             "start": 1,
             "missileInterval": 10000
         }]

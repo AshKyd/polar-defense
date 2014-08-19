@@ -119,13 +119,21 @@ sp.draw = function(delta, ctx){
 			_this.h
 		);
 	} else {
-		draw.circle(ctx,_this.pos.toCartesian(),{
-			width: _this.w,
-			fill: _this.fill || '#fff',
-			stroke: _this.stroke,
-			width: _this.w,	
-			w: _this.strokeWidth
-		});
+		var cartesian = _this.pos.toCartesian();
+		var textSize = _this.textSize||30;
+		if(this.text) {
+			ctx.font = textSize+'px Arial';
+			ctx.fillStyle = _this.stroke;
+			ctx.fillText(_this.text,cartesian.x,cartesian.y);
+		} else {
+			draw.circle(ctx,cartesian,{
+				width: _this.w,
+				fill: _this.fill || '#fff',
+				stroke: _this.stroke,
+				width: _this.w,	
+				w: _this.strokeWidth
+			});
+		}
 	}
 	ctx.restore();
 

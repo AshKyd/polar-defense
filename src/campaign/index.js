@@ -1,9 +1,11 @@
 module.exports = {
 	levels: [
-		require('./level1.json'),
-		require('./level2.json'),
-		require('./level3.json'),
-		require('./level4.json')
+		require('./level1'),
+		require('./level2'),
+		require('./level3'),
+		require('./level4'),
+		require('./level5'),
+		require('./level6'),
 	],
 	messages:{
 		gameWon:{
@@ -12,15 +14,15 @@ module.exports = {
 		},
 		gameOver:{
 			"heading":"Oh well",
-			"message":"<p>You put up a good fight, and we all appreciate your efforts.</p><p>I'm about to press the doomsday button on my console here, if we can't have the planet nobody can.</p><p>If you have any last words, best get to saying them.</p>"
+			"message":"<p>You put up a good fight, and we all appreciate your efforts.</p><p>If we can't have the planet nobody can, so I'm going to have to press the doomsday button.</p><p>If you have any last words, best get to saying them.</p>"
 		},
 		unsupported:{
 			"heading":"You need an upgrade",
-			"message":"<p>Your browser is rather a bit old. <a href=\"//whatbrowser.org\">Upgrade to play</a>.</p>"
+			"message":"<p>Your browser is a bit old. <a href=\"//whatbrowser.org\">Upgrade to play</a>.</p>"
 		},
 		about:{
 			heading:"Polar Defender",
 			message:"<p>Polar defender is brought to you by <a href=\"//spacekidgames.com\">Space Kid Games</a>, aka <a href=\"//ash.ms\">Ash Kyd</a>."
 		}
 	}
-}
+};

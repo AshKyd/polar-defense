@@ -1,34 +1,34 @@
 {
-    "title": "A transmission from Jupiter:",
-    "spiel": "<p>It looks like the invaders are invading our colony on Europa, Jupiter's fourth-largest moon.</p><p>Did you know the surface of Europa is covered in an icy ocean?</p><p>It also has a thin oxygen atmosphere <small>(too thin to breathe, alas)</small>, making it a great location to send petty criminals to manufacture license plates!</p>",
-    "size":15,
-    "fill":"#0055d4",
-    "stroke":"#214478",
-    "r": 0.95,
+    "title": "As a last-ditch attempt, they want to destroy the sun!",
+    "spiel": "<p>The audacity! Without the sun we're doomed!</p><p>You must stop these ghastly invaders!</p>",
+    "size":5,
+    "fill":"yellow",
+    "stroke":"orange",
+    "r": 1.1,
     "waves": [{
         "proceedAfter": 1,
         "sprites": [{
             "rows": 15,
             "cols": 4,
             "src": "invader",
-            "dest": 5,
+            "dest": 8,
             "dir": -1,
             "w": 2.5,
             "color": "b",
             "start": 1,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }, {
             "rows": 15,
             "cols": 4,
             "src": "invader",
-            "dest": 8,
+            "dest": 10,
             "dir": 1,
             "w": 2.5,
             "color": "t",
             "start": 1.5,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }]
     },{
         "proceedAfter": 15,
@@ -36,23 +36,23 @@
             "rows": 7,
             "cols": 2,
             "src": "invader2",
-            "dest": 6,
+            "dest": 7,
             "dir": 1,
             "w": 3.5,
             "color": "p",
             "start": 1,
-            "speedModR": 2,
+            "speedModD": 0.5,
             "missileInterval": 2000
         }, {
             "rows": 7,
             "cols": 5,
             "src": "invader2",
-            "dest": 7,
+            "dest": 9,
             "dir": -1,
             "w": 3.5,
             "color": "p",
             "start": 1.2,
-            "speedModR": 2,
+            "speedModD": 0.5,
             "missileInterval": 2000
         }]
     }, {
@@ -61,24 +61,24 @@
             "rows": 16,
             "cols": 4,
             "src": "invader",
-            "dest": 5,
+            "dest": 8,
             "dir": -1,
             "w": 3.5,
             "color": "t",
             "start": 1,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }, {
             "rows": 16,
             "cols": 4,
             "src": "invader",
-            "dest": 8,
+            "dest": 10,
             "dir": 1,
             "w": 3.5,
             "color": "b",
             "start": 1.5,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }]
     },{
         "proceedAfter": 1,
@@ -86,24 +86,24 @@
             "rows": 15,
             "cols": 4,
             "src": "invader",
-            "dest": 5,
+            "dest": 7,
             "dir": -1,
             "w": 2.5,
             "color": "b",
             "start": 1,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }, {
             "rows": 15,
             "cols": 4,
             "src": "invader",
-            "dest": 8,
+            "dest": 9,
             "dir": 1,
             "w": 2.5,
             "color": "t",
             "start": 1.5,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 0.5
         }]
     },{
         "proceedAfter": 15,
@@ -111,23 +111,23 @@
             "rows": 7,
             "cols": 2,
             "src": "invader2",
-            "dest": 6,
+            "dest": 8,
             "dir": 1,
             "w": 3.5,
             "color": "p",
             "start": 1,
-            "speedModR": 2,
+            "speedModD": 1,
             "missileInterval": 2000
         }, {
             "rows": 7,
             "cols": 5,
             "src": "invader2",
-            "dest": 7,
+            "dest": 10,
             "dir": -1,
             "w": 3.5,
             "color": "p",
             "start": 1.2,
-            "speedModR": 2,
+            "speedModD": 1,
             "missileInterval": 2000
         }]
     }, {
@@ -137,13 +137,13 @@
             "rows": 20,
             "cols": 4,
             "src": "invader",
-            "dest": 5,
+            "dest": 6,
             "dir": -1,
             "w": 3.5,
             "color": "t",
             "start": 1,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 1
         }, {
             "rows": 20,
             "cols": 4,
@@ -154,7 +154,26 @@
             "color": "b",
             "start": 1.5,
             "missileInterval": 2000,
-            "speedModR": 1.5
+            "speedModD": 1
+        }]
+    }, {
+        "proceedAfter": 15,
+        "flash":true,
+        "sprites": [{
+            "rows": 1,
+            "cols": 1,
+            "src": "invader3",
+            "dest": 6,
+            "dir": -1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "missileInterval": 1000,
+            "speedModD": 0.5,
+            "speedModR": 0,
+            "hp": 12,
+            "sound":"boom",
+            "altFreqD": 20
         }]
     }]
 }

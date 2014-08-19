@@ -10,23 +10,21 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 5,
             "dir": -1,
             "w": 2.5,
-            "color": "yellow",
+            "color": "y",
             "start": 1,
             "missileInterval": 2000
         }, {
             "rows": 15,
             "cols": 4,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 8,
             "dir": 1,
             "w": 2.5,
-            "color": "purple",
+            "color": "p",
             "start": 1.5,
             "missileInterval": 2000
         }]
@@ -35,24 +33,22 @@
         "sprites": [{
             "rows": 7,
             "cols": 2,
-            "behaviour": "inv1",
             "src": "invader2",
             "dest": 6,
             "dir": 1,
             "w": 3.5,
-            "color": "green",
+            "color": "g",
             "start": 1,
             "speedModR": 1.5,
             "missileInterval": 3000
         }, {
             "rows": 7,
             "cols": 2,
-            "behaviour": "inv1",
             "src": "invader2",
             "dest": 7,
             "dir": -1,
             "w": 3.5,
-            "color": "green",
+            "color": "g",
             "start": 1.2,
             "speedModR": 1.5
         }]
@@ -61,39 +57,37 @@
         "sprites": [{
             "rows": 16,
             "cols": 4,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 5,
             "dir": -1,
             "w": 3.5,
-            "color": "purple",
+            "color": "p",
             "start": 1,
             "missileInterval": 2000,
             "speedModR": 1.5
         }, {
             "rows": 16,
             "cols": 4,
-            "behaviour": "inv1",
             "src": "invader",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
-            "color": "yellow",
+            "color": "y",
             "start": 1.5,
             "missileInterval": 2000,
             "speedModR": 1.5
         }]
     },{
         "proceedAfter": 5,
+        "flash":true,
         "sprites": [{
             "rows": 1,
             "cols": 1,
-            "behaviour": "inv1",
             "src": "invader3",
             "dest": 6.5,
             "dir": 1,
             "w": 0.75,
-            "color": "yellow",
+            "color": "y",
             "start": 1,
             "speedModR": 0,
             "speedModD": 0.5,

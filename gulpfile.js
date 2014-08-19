@@ -13,12 +13,12 @@ gulp.task('js', function() {
         .pipe(browserify({
           debug : false
         }))
-        .pipe(uglify({
-        	compress: {
-        		unsafe: true,
-        		hoist_vars: true
-        	}
-        }))
+        // .pipe(uglify({
+        // 	compress: {
+        // 		unsafe: true,
+        // 		hoist_vars: true
+        // 	}
+        // }))
         .pipe(gulp.dest('dist/scripts/'));
 });
 

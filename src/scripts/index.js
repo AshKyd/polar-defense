@@ -8,11 +8,11 @@ var doc = document;
 
 var Game = require('./game');
 var sounds = require('./audio');
+var touch;
+var canvas;
 
 var message;
 function showMessage(opts,cb){
-	// Import touch stuff.
-	var touch = require('./touch');
 	if(message){
 		doc.body.removeChild(message);
 	}
@@ -36,6 +36,56 @@ function showMessage(opts,cb){
 	sounds.play('menu',500);
 }
 
+/**
+ * Log an event to Loggly during the beta phase.
+ * Note: remove this before release.
+ */
+window.log = function(key,data){
+	window.console && console.log('Sending debug data',key,data);
+	var src = 'http://logs-01.loggly.com/inputs/76186e9d-1441-4b41-aca0-24182e4f56cf.gif?from=pd';
+	data = data || {};
+	data.key = key;
+	data.ua = navigator.userAgent;
+	data.resX = innerWidth;
+	data.resY = innerHeight;
+
+	for(var i in data){
+		src += '&'+encodeURIComponent(i)+'='+encodeURIComponent(data[i]);
+	}
+	var pxl = doc.createElement('img');
+	pxl.src = src;
+};
+
+window.onerror = function(a,b,c){
+	log('onerror',{
+		message: a,
+		url: b,
+		lineNumber: c
+	});
+};
+
+function gameOver(stats){
+	showMessage(campaign.messages.gameOver);
+	log('started',stats);
+}
+
+/**
+ * Flash the screen red. Useful for bosses.
+ */
+function flash(){
+	canvas.className = 'warn';
+	window.setTimeout(function(){
+		canvas.className = '';
+	},6000);
+}
+
+function rumble(){
+	canvas.className = 'rumble';
+	window.setTimeout(function(){
+		canvas.className = '';
+	},500);
+}
+
 function about(){
 	showMessage(campaign.messages.about);
 }
@@ -48,25 +98,46 @@ function toggleSound(){
 	});
 }
 function zenMode(){
-	showMessage({
-		heading: 'Under construction',
-		message: '<p>Zen mode is under construction. &lt;construction.giv&gt;'
+	message.className = ''; // hide the menu.
+	var game = new Game(canvas,{
+		gameOver: gameOver,
+		flash: flash,
+		rumble: rumble,
+		level: {
+		    "size":10,
+		    "fill":"#00d400",
+		    "stroke":"#00aa00",
+		    "r": 0.95,
+		    waves:'zen'
+		}
 	});
+	// showMessage({
+	// 	heading: 'Under construction',
+	// 	message: '<p>Zen mode is under construction. &lt;construction.giv&gt;'
+	// });
 }
 
 function mainMenu(){
 	var options = {
-		'New Campaign': newGame,
-		'Zen Mode': zenMode,
-		'Toggle Sound': toggleSound,
-		'About': about
+		'☢;New Campaign': newGame,
+		'☣;Zen Mode': zenMode,
+		'🔉;Toggle Sound': toggleSound,
+		'ℹ;About': about
 	};
 	var div = doc.createElement('p');
 	for(var i in options){
 		var a = doc.createElement('a');
-		a.innerHTML = i;
-		a.className="menu"
+		var text = i.split(';');
+		a.innerHTML = text[1];
+		a.className="menu";
 		a.onclick = options[i];
+		a.onmouseenter = function(){
+			sounds.play('menuItem');
+		}
+
+		var icon = doc.createElement('span');
+		icon.innerHTML = text[0];
+		a.appendChild(icon);
 		div.appendChild(a);
 	}
 	showMessage({
@@ -77,42 +148,21 @@ function mainMenu(){
 }
 
 function newGame(){
-	var canvas = doc.querySelector('#c');
 	var level = 0;
 	var touchSupport = 'ontouchstart' in document.documentElement;
 	var game;
 
-	function gameWon(){
+	function gameWon(stats){
 		showMessage(campaign.messages.gameWon);
+		log('started',stats);
 	}
 
-	function gameOver(){
-		showMessage(campaign.messages.gameOver);
-	}
-
-	/**
-	 * Flash the screen red. Useful for bosses.
-	 */
-	function flash(){
-		canvas.className = 'warn';
-		window.setTimeout(function(){
-			canvas.className = '';
-		},6000);
-	}
-
-	function rumble(){
-		canvas.className = 'rumble';
-		window.setTimeout(function(){
-			canvas.className = '';
-		},500);
-	}
-
-	function nextLevel(){
+	function nextLevel(stats){
 		if(game){
 			game.end = true;
 		}
 
-		var thisLevel = campaign.levels[level++];
+		var thisLevel = campaign.levels[level];
 
 		if(!thisLevel){
 			return gameWon();
@@ -134,11 +184,17 @@ function newGame(){
 				gameOver: gameOver,
 				flash: flash,
 				rumble: rumble,
-				level: thisLevel
+				level: thisLevel,
+				levelNum: level++,
+				lives: stats.lives,
+				score: stats.score
 			});
 		});
 	}
-	nextLevel();
+	nextLevel({
+		lives:3,
+		score:0
+	});
 	
 }
 
@@ -149,5 +205,9 @@ window.onload = function(){
 		return;
 	}
 
+	touch = require('./touch');
+	canvas = doc.querySelector('#c');
+
 	mainMenu();
+	log('started');
 };
