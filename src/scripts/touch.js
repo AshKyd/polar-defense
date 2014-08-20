@@ -4,6 +4,7 @@ var exported = {
 	x: 0,
 	y: 0,
 	h: 0,
+	hStart: 0,
 	max:0
 };
 module.exports = exported;
@@ -14,6 +15,9 @@ var addEventListener = function(l,fn){
 
 var touchStart;
 addEventListener('touchstart', function(e){
+	if(e.srcElement.nodeName === 'A'){
+		return;
+	}
 	exported.x = 0;
 	exported.y = 0;
 	touchStart = e.targetTouches[0];
@@ -21,6 +25,9 @@ addEventListener('touchstart', function(e){
 	return false;
 });
 addEventListener('touchmove', function(e){
+	if(e.srcElement.nodeName === 'A'){
+		return;
+	}
 	exported.x = e.targetTouches[0].clientX - touchStart.clientX;
 	var max = exported.max/2.5;
 	exported.x = m.min(max,m.max(0-max,exported.x));
@@ -31,12 +38,16 @@ addEventListener('touchmove', function(e){
 });
 
 addEventListener('touchend', function(e){
+	if(e.srcElement.nodeName === 'A'){
+		return;
+	}
 	if(m.abs(exported.x) < 10 && m.abs(exported.y) < 10){
 		exported.click();
 	}
 	exported.x = 0;
 	exported.y = 0;
 });
+
 
 addEventListener('mouseup', function(e){
 	if(e.srcElement.nodeName === 'A'){
@@ -49,11 +60,14 @@ addEventListener('mouseup', function(e){
 var firing = false;
 var fireKeys = [32,27];
 addEventListener('keydown',function(e){
-	if(e.which == 37){
-		exported.h = -6;
+	var now = performance.now();
+	if(e.which == 37 && exported.h != -1){
+		exported.h = -1;
+		exported.hStart = now;
 	}
-	if(e.which == 39){
-		exported.h = +6;
+	if(e.which == 39 && exported.h != 1){
+		exported.h = 1;
+		exported.hStart = now;
 	}
 	if(fireKeys.indexOf(e.which) != -1 && !firing){
 		exported.click();
@@ -62,11 +76,13 @@ addEventListener('keydown',function(e){
 });
 
 addEventListener('keyup',function(e){
-	if(e.which == 37){
-		exported.h += 6;
+	if(e.which == 37 && exported.h == -1){
+		exported.h = 0;
+		exported.hStart = 0;
 	}
-	if(e.which == 39){
-		exported.h -= 6;
+	if(e.which == 39 && exported.h == 1){
+		exported.h = 0;
+		exported.hStart = 0;
 	}
 	if(fireKeys.indexOf(e.which) != -1){
 		firing = false;

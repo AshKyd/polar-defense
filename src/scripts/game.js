@@ -15,6 +15,12 @@ var Game = function(canv,opts){
 
 	var lives = opts.lives || 3;
 
+	var fps = 30;
+	var fpsMin = 100;
+	var fpsMax = 0;
+	var fpsTotal = 0;
+	var frameCount = 0;
+
 	var planet = max/opts.level.size;
 	var offset = max/15;
 	var lastFrame = performance.now();
@@ -123,39 +129,68 @@ var Game = function(canv,opts){
 	}
 
 	function zenWave(invadersRemaining){
-		waveNum = m.min(waveNum,200);
-		if(invadersRemaining > waveNum/3){
+		var effectiveWaveNum = m.min(waveNum,200);
+		if(invadersRemaining > effectiveWaveNum/3){
 			return;
 		}
 		var colorKey = Object.keys(colors);
 
 		// console.table([0,10,20,30,40,50,60,70,80,90,100,200].map(function(waveNum){
 
-			var modifier = (waveNum++)/100;
-			var cols = (10*modifier)+4;
-			var rows = (5*modifier)+1+m.round(m.random());
-			var color = colorKey[m.round(m.random()*(colorKey.length-1))];
-			var dir = m.round(m.random()*3)-2;
-			for(var i=0; i<cols; i++){
-				var rowOffset = 5;
-				for(var j=0; j<rows; j++){
-					var conf = {
-						behaviour:'inv1',
-						dest:j*offset+offset*5+j,
-						w: (offset/2.5)*(1-(modifier/4)),
-			            src: "invader",
-			            dir: dir,
-			            color: color,
-			            start: 1,
-			            rows:rows,
-			            cols:cols,
-			            missileInterval: 5000/((1+modifier))/(!dir?2:1)
-					};
-					mkSprite(conf,max+j*offset,i*4*m.PI+0.5);
-				}
-			}
+		var modifier = (effectiveWaveNum++)/100;
+		var cols = (10*modifier)+4;
+		var rows = (5*modifier)+1+m.round(m.random());
+		var color = colorKey[m.round(m.random()*(colorKey.length-1))];
+		var dir = m.round(m.random()*3)-2;
+		var d = m.random()*360;
+		var missileInterval = 5000/((1+modifier))/(!dir?2:1);
 
-			return conf;
+		// Every 10 waves, spawn a boss!
+		if(effectiveWaveNum%10 == 0){
+			opts.flash();
+			for(var i=0; i<m.min(effectiveWaveNum/20); i++){
+				mkSprite({
+					behaviour:'inv1',
+					dest:offset*5,
+					w: offset/0.75,
+		            src: "invader3",
+		            dir: dir,
+		            color: color,
+		            start: 1,
+		            rows:rows,
+		            cols:cols,
+		            missileInterval: missileInterval/2,
+		            speedModD: 0.5,
+		            speedModR: 0,
+		            hp: effectiveWaveNum/16+10,
+		            sound:"boom",
+		            altFreqD: 20,
+		            score:1000
+				},max,d+i*60);
+			}
+			return;
+		}
+
+		for(var i=0; i<cols; i++){
+			var rowOffset = 5;
+			for(var j=0; j<rows; j++){
+				var conf = {
+					behaviour:'inv1',
+					dest:j*offset+offset*5+j,
+					w: (offset/2.5)*(1-(modifier/4)),
+		            src: "invader",
+		            dir: dir,
+		            color: color,
+		            start: 1,
+		            rows:rows,
+		            cols:cols,
+		            missileInterval: missileInterval
+				};
+				mkSprite(conf,max+j*offset,i*4*m.PI+0.5);
+			}
+		}
+
+			// return conf;
 		// }));
 		// throw 'exit';
 	}
@@ -241,7 +276,12 @@ var Game = function(canv,opts){
 			sprite.die();
 			return;
 		}
-		for(var i=0; i<(subtlety||10); i++){
+
+		// Here's where it starts to slow down. Throttle when we're
+		// looking iffy.
+		var throttle = fps < 25 ? 2 : 10;
+
+		for(var i=0; i<(subtlety||throttle); i++){
 			mkSprite({
 				behaviour:'particle',
 				life: m.random()*1000+1000*m.min(i,10),
@@ -250,7 +290,7 @@ var Game = function(canv,opts){
 				momentum: [(m.random()-.5)/5,(m.random()-0.5)]
 			});
 		}
-		for(var i=0; i<(subtlety||10); i++){
+		for(var i=0; i<(subtlety||throttle); i++){
 			mkSprite({
 				behaviour:'particle',
 				kinetic: i<3,
@@ -456,6 +496,11 @@ var Game = function(canv,opts){
 		ctx.font = 'bold 20px Arial';
 		ctx.fillStyle = '#fff';
 		ctx.fillText("Score: "+score, -max/2+10, -max/2+30);
+
+		ctx.fillText(m.round(fps)+'fps - '+
+			+m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax', -max/2+10, max/2-100);
+
+
 		var livesText = '';
 		ctx.font = 'bold 30px Arial';
 		for(var i=0;i<lives;i++){
@@ -463,7 +508,10 @@ var Game = function(canv,opts){
 		}
 		ctx.fillStyle = '#f22';
 		ctx.fillText(livesText, -max/2+10, -max/2+60);
+
+
 	}
+
 
 	function render(){
 		if(paused){
@@ -474,8 +522,21 @@ var Game = function(canv,opts){
 		ctx.clearRect(-max/2,-max/2,max,max);
 		var delta = performance.now() - lastFrame;
 
-		player.posInc(0,touch.h);
+		fps = (fps*9 + 1000/delta)/10;
+		frameCount++;
+		fpsMax = m.max(fps,fpsMax);
+		fpsMin = m.min(fps,fpsMin);
 		lastFrame = performance.now();
+
+		if(touch.hStart){
+			// From 0 to 6 in 1 seconds.
+			var diff = m.min(6, (performance.now() - touch.hStart)/1000*6);
+			player.posInc(0,touch.h*(planet/50+diff));
+		} else {
+			// FIXME: This mightn't work on different sized screens.
+			player.posInc(0,touch.h/planet*(delta/2));
+		}
+
 		collisionDetection();
 		drawWorld(delta);
 
