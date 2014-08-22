@@ -13,7 +13,7 @@
         "sprites": [{
             "rows": 2,
             "cols": 2,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": 1,
             "w": 2.5,
@@ -26,7 +26,7 @@
         "sprites": [{
             "rows": 2,
             "cols": 2,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": 1,
             "w": 2.5,

@@ -10,7 +10,7 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 2.5,
@@ -20,7 +20,7 @@
         }, {
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 2.5,
@@ -33,7 +33,7 @@
         "sprites": [{
             "rows": 7,
             "cols": 2,
-            "src": "invader2",
+            "src": "i2",
             "dest": 6,
             "dir": 1,
             "w": 3.5,
@@ -44,7 +44,7 @@
         }, {
             "rows": 7,
             "cols": 2,
-            "src": "invader2",
+            "src": "i2",
             "dest": 7,
             "dir": -1,
             "w": 3.5,
@@ -57,7 +57,7 @@
         "sprites": [{
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 3.5,
@@ -68,7 +68,7 @@
         }, {
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
@@ -83,16 +83,16 @@
         "sprites": [{
             "rows": 1,
             "cols": 1,
-            "src": "invader3",
+            "src": "boss1",
             "dest": 6.5,
             "dir": 1,
             "w": 0.75,
-            "color": "y",
+            "color": "p",
             "start": 1,
             "speedModR": 0,
             "speedModD": 0.5,
-            "missileInterval": 2000,
-            "hp": 12,
+            "missileInterval": 1500,
+            "hp": 15,
             "sound":"boom",
             "altFreqD": 20
         }]

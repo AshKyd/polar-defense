@@ -46,11 +46,18 @@ var Game = function(canv,opts){
 	Sprite.prototype.mkSprite = mkSprite;
 
 	// Halo around the planet. Static image.
+	// var planetHalo = mkSprite({
+	// 	src: 'halo',
+	// 	w: planet*12,
+	// 	kinetic:false
+	// },-planet*6,0);
+	
 	var planetHalo = mkSprite({
-		src: 'halo',
-		w: planet*12,
-		kinetic:false
-	},-planet*6,0);
+		kinetic:false,
+		fill:'#00e9ff',
+		w:planet*1.2,
+		alpha:1
+	},0.001,0.001);
 
 
 	var crust = planet/4;
@@ -121,7 +128,7 @@ var Game = function(canv,opts){
 					conf.behaviour = 'inv1';
 					conf.dest = j*offset+offset*conf.dest;
 					conf.w = offset/conf.w;
-					mkSprite(conf,max*wave.start+j*offset,i*4*m.PI);
+					mkSprite(conf,max*wave.start+j*offset,(conf.d||0)+i*4*m.PI);
 				}
 			}
 		});
@@ -153,7 +160,7 @@ var Game = function(canv,opts){
 					behaviour:'inv1',
 					dest:offset*5,
 					w: offset/0.75,
-		            src: "invader3",
+		            src: "boss1",
 		            dir: dir,
 		            color: color,
 		            start: 1,
@@ -178,12 +185,13 @@ var Game = function(canv,opts){
 					behaviour:'inv1',
 					dest:j*offset+offset*5+j,
 					w: (offset/2.5)*(1-(modifier/4)),
-		            src: "invader",
+		            src: "i1",
 		            dir: dir,
 		            color: color,
 		            start: 1,
 		            rows:rows,
 		            cols:cols,
+		            // hp: 2,
 		            missileInterval: missileInterval
 				};
 				mkSprite(conf,max+j*offset,i*4*m.PI+0.5);

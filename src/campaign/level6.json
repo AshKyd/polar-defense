@@ -10,7 +10,7 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": -1,
             "w": 2.5,
@@ -21,7 +21,7 @@
         }, {
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 10,
             "dir": 1,
             "w": 2.5,
@@ -35,7 +35,7 @@
         "sprites": [{
             "rows": 7,
             "cols": 2,
-            "src": "invader2",
+            "src": "i2",
             "dest": 7,
             "dir": 1,
             "w": 3.5,
@@ -46,7 +46,7 @@
         }, {
             "rows": 7,
             "cols": 5,
-            "src": "invader2",
+            "src": "i2",
             "dest": 9,
             "dir": -1,
             "w": 3.5,
@@ -60,7 +60,7 @@
         "sprites": [{
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": -1,
             "w": 3.5,
@@ -71,7 +71,7 @@
         }, {
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 10,
             "dir": 1,
             "w": 3.5,
@@ -85,7 +85,7 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 7,
             "dir": -1,
             "w": 2.5,
@@ -96,7 +96,7 @@
         }, {
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 9,
             "dir": 1,
             "w": 2.5,
@@ -110,7 +110,7 @@
         "sprites": [{
             "rows": 7,
             "cols": 2,
-            "src": "invader2",
+            "src": "i2",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
@@ -121,7 +121,7 @@
         }, {
             "rows": 7,
             "cols": 5,
-            "src": "invader2",
+            "src": "i2",
             "dest": 10,
             "dir": -1,
             "w": 3.5,
@@ -136,7 +136,7 @@
         "sprites": [{
             "rows": 20,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 6,
             "dir": -1,
             "w": 3.5,
@@ -147,7 +147,7 @@
         }, {
             "rows": 20,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
@@ -162,7 +162,7 @@
         "sprites": [{
             "rows": 1,
             "cols": 1,
-            "src": "invader3",
+            "src": "i3",
             "dest": 6,
             "dir": -1,
             "w": 0.75,
@@ -171,9 +171,287 @@
             "missileInterval": 1000,
             "speedModD": 0.5,
             "speedModR": 0,
-            "hp": 12,
+            "hp": 30,
             "sound":"boom",
             "altFreqD": 20
+        }]
+    }, {
+        "proceedAfter": 0,
+        "sprites": [{
+            "rows": 7,
+            "cols": 2,
+            "src": "i3",
+            "dest": 6,
+            "dir": 1,
+            "w": 3.5,
+            "color": "s",
+            "start": 1,
+            "hp": 2,
+            "missileInterval": 2000
+        }, {
+            "rows": 7,
+            "cols": 5,
+            "src": "i3",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "y",
+            "start": 1.2,
+            "hp": 2,
+            "missileInterval": 2000
+        }]
+    }, {
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 10,
+            "cols": 4,
+            "src": "i2",
+            "dest": 5,
+            "dir": -1,
+            "w": 3.5,
+            "color": "r",
+            "start": 1,
+            "missileInterval": 2000
+        },{
+            "rows": 7,
+            "cols": 5,
+            "src": "i3",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "y",
+            "start": 1.2,
+            "hp": 2,
+            "missileInterval": 2000
+        } ]
+    }, {
+        "proceedAfter": 5,
+        "sprites": [{
+            "rows": 16,
+            "cols": 4,
+            "src": "i1",
+            "dest": 5,
+            "dir": -1,
+            "w": 3.5,
+            "color": "t",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 16,
+            "cols": 4,
+            "src": "i1",
+            "dest": 8,
+            "dir": 1,
+            "w": 3.5,
+            "color": "b",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    }, {
+        "proceedAfter": 10,
+        "sprites": [{
+            "rows": 15,
+            "cols": 4,
+            "src": "i1",
+            "dest": 5,
+            "dir": -1,
+            "w": 2.5,
+            "color": "b",
+            "start": 1,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }, {
+            "rows": 15,
+            "cols": 4,
+            "src": "i1",
+            "dest": 8,
+            "dir": 1,
+            "w": 2.5,
+            "color": "t",
+            "start": 1.5,
+            "missileInterval": 2000,
+            "speedModR": 1.5
+        }]
+    }, {
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 7,
+            "cols": 2,
+            "src": "i2",
+            "dest": 6,
+            "dir": 1,
+            "w": 3.5,
+            "color": "p",
+            "start": 1,
+            "speedModR": 1.5,
+            "missileInterval": 1000
+        }, {
+            "rows": 7,
+            "cols": 5,
+            "src": "i2",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "p",
+            "start": 1.2,
+            "speedModR": 1.5,
+            "missileInterval": 1000
+        }]
+    }, {
+        "proceedAfter": 10,
+        "flash": true,
+        "sprites": [{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":0
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":36
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":72
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":108
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":144
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":180
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":216
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":252
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "r",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":288
+        },{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "missileInterval": 800,
+            "hp": 30,
+            "sound": "boom",
+            "altFreqD": 0,
+            "d":324
         }]
     }]
 }

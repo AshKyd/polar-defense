@@ -10,7 +10,7 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 2.5,
@@ -21,7 +21,7 @@
         }, {
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 2.5,
@@ -34,33 +34,23 @@
         "proceedAfter": 15,
         "sprites": [{
             "rows": 7,
-            "cols": 2,
-            "src": "invader2",
+            "cols": 3,
+            "src": "i3",
             "dest": 6,
             "dir": 1,
             "w": 3.5,
-            "color": "p",
+            "color": "s",
             "start": 1,
-            "speedModR": 2,
-            "missileInterval": 2000
-        }, {
-            "rows": 7,
-            "cols": 5,
-            "src": "invader2",
-            "dest": 7,
-            "dir": -1,
-            "w": 3.5,
-            "color": "p",
-            "start": 1.2,
-            "speedModR": 2,
+            "speedModR": 0.5,
+            "hp": 2,
             "missileInterval": 2000
         }]
     }, {
-        "proceedAfter": 15,
+        "proceedAfter": 1,
         "sprites": [{
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 3.5,
@@ -71,7 +61,7 @@
         }, {
             "rows": 16,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
@@ -85,7 +75,7 @@
         "sprites": [{
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 2.5,
@@ -96,7 +86,7 @@
         }, {
             "rows": 15,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 2.5,
@@ -110,7 +100,7 @@
         "sprites": [{
             "rows": 7,
             "cols": 2,
-            "src": "invader2",
+            "src": "i2",
             "dest": 6,
             "dir": 1,
             "w": 3.5,
@@ -121,7 +111,7 @@
         }, {
             "rows": 7,
             "cols": 5,
-            "src": "invader2",
+            "src": "i2",
             "dest": 7,
             "dir": -1,
             "w": 3.5,
@@ -132,11 +122,10 @@
         }]
     }, {
         "proceedAfter": 15,
-        "flash":true,
         "sprites": [{
             "rows": 20,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 5,
             "dir": -1,
             "w": 3.5,
@@ -147,7 +136,7 @@
         }, {
             "rows": 20,
             "cols": 4,
-            "src": "invader",
+            "src": "i1",
             "dest": 8,
             "dir": 1,
             "w": 3.5,
@@ -155,6 +144,52 @@
             "start": 1.5,
             "missileInterval": 2000,
             "speedModR": 1.5
+        }]
+    }, {
+        "proceedAfter": 15,
+        "sprites": [{
+            "rows": 7,
+            "cols": 2,
+            "src": "i3",
+            "dest": 6,
+            "dir": 1,
+            "w": 3.5,
+            "color": "s",
+            "start": 1,
+            "speedModR": 0.5,
+            "hp": 2,
+            "missileInterval": 2000
+        }, {
+            "rows": 7,
+            "cols": 5,
+            "src": "i3",
+            "dest": 7,
+            "dir": -1,
+            "w": 3.5,
+            "color": "s",
+            "start": 1.2,
+            "speedModR": 0.5,
+            "hp": 2,
+            "missileInterval": 2000
+        }]
+    }, {
+        "proceedAfter": 2,
+        "flash":true,
+        "sprites": [{
+            "rows": 1,
+            "cols": 1,
+            "src": "boss1",
+            "dest": 6.5,
+            "dir": 1,
+            "w": 0.75,
+            "color": "y",
+            "start": 1,
+            "speedModR": 0,
+            "speedModD": 0.5,
+            "missileInterval": 2000,
+            "hp": 12,
+            "sound":"boom",
+            "altFreqD": 20
         }]
     }]
 }
