@@ -2,6 +2,7 @@ var p = require('./polar');
 var draw = require('./canv');
 var Cartesian = p.cartesian;
 var Polar = p.polar;
+var colors = require('./colors');
 
 var images = require('../img/');
 var cache = {};
@@ -34,21 +35,29 @@ var Sprite = function(opts){
 
 var sp = Sprite.prototype;
 
-sp.createImg = function(img, replace){
+sp.createImg = function(img){
 	var _this = this;
-	_this.img = document.createElement('img');
-	// Calculate the height based on the width provided.
-	_this.img.onload = function(){
+
+	var key = img + this.color;
+	if(cache[key]){
+		_this.img = cache[key];
 		_this.h = _this.img.height * (_this.w / _this.img.width);
-	};
-	var imgContents = images[img];
-	if(_this.colors){
-		for(var original in _this.colors){
-			imgContents = imgContents.replace(new RegExp(original,'g'),_this.colors[original]);
+	} else {
+		_this.img = document.createElement('img');
+		// Calculate the height based on the width provided.
+		_this.img.onload = function(){
+			_this.h = _this.img.height * (_this.w / _this.img.width);
+		};
+		var imgContents = images[img];
+		if(_this.colors){
+			for(var original in _this.colors){
+				imgContents = imgContents.replace(new RegExp(original,'g'),_this.colors[original]);
+			}
 		}
+		var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(imgContents)));
+		_this.img.src = uri;
+		cache[key] = _this.img;
 	}
-	var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(imgContents)));
-	_this.img.src = uri;
 };
 
 /**

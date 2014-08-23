@@ -214,43 +214,24 @@ var Game = function(canv,opts){
 		}
 	}
 
-
-	/**
-	 * Remove a hitpoint from specified sprite.
-	 * If this sprite has hitpoints, subtract one and quit, providing the 
-	 * sprite hasn't just been hit. The lastHit check is to prevent
-	 * explosion particles from missiles from continuing to inflict damage.
-	 * @return {number} 0 = dead, 1 = decremented, 2 = neither
-	 */
-	function deHp(sprite){
-		if(sprite.hp && sprite.hp > 0){
-			if(typeof sprite.lastHit == 'undefined' || performance.now()-sprite.lastHit > 1000){
-				sprite.lastHit = performance.now();
-				sprite.hp--;
-				return 1;
-			} else {
-				return 2;
-			}
-		}
-
-		// Sprite has no hitpoints.
-		return 0;
-	}
-
 	/**
 	 * Explode a sprite in a most dramatic fashion.
 	 * @param  {Sprite} sprite The sprite to explode
 	 */
 	function explodeSprite(sprite,subtlety){
-		if(sprite.dead){
+		if(sprite.dead || sprite.behaviour == 'particle'){
 			return;
 		}
+
+		// Here's where it starts to slow down. Throttle when we're
+		// looking iffy.
+		var throttle = fps < 25 ? 2 : 10;
 
 		var hitpoint = deHp(sprite);
 		if(hitpoint && subtlety !== false){
 			sounds.play('miss');
 			if(hitpoint === 1){
-				for(var i=0; i<10; i++){
+				for(var i=0; i<fps*2; i++){
 					mkSprite({
 						behaviour:'particle',
 						kinetic: false,
@@ -266,12 +247,12 @@ var Game = function(canv,opts){
 		}
 		sprite.dead = true;
 
-		for(var i=0; i<5; i++){
+		for(var i=0; i<fps; i++){
 			mkSprite({
 				behaviour:'particle',
 				kinetic: false,
 				fill: m.random > 0.5 ? '#222' : '#333',
-				w: sprite.w/2 || planet/8,
+				w: sprite.w/4 || planet/8,
 				life: m.random()*2000+1000,
 				pos: new Polar(sprite.pos.r,sprite.pos.d),
 				momentum: [(m.random()-.5)/10,(m.random()-0.5)]
@@ -284,10 +265,6 @@ var Game = function(canv,opts){
 			sprite.die();
 			return;
 		}
-
-		// Here's where it starts to slow down. Throttle when we're
-		// looking iffy.
-		var throttle = fps < 25 ? 2 : 10;
 
 		for(var i=0; i<(subtlety||throttle); i++){
 			mkSprite({
@@ -454,9 +431,7 @@ var Game = function(canv,opts){
 				);
 			});
 			if(collisions.length){
-				if(!deHp(currentSprite)){
-					explodeSprite(currentSprite);
-				}
+				explodeSprite(currentSprite);
 				collisions.forEach(explodeSprite);
 			}
 		});
@@ -464,6 +439,29 @@ var Game = function(canv,opts){
 		if(dead || player.dead){
 			doomsday(planet*3);
 		}
+	}
+
+
+	/**
+	 * Remove a hitpoint from specified sprite.
+	 * If this sprite has hitpoints, subtract one and quit, providing the 
+	 * sprite hasn't just been hit. The lastHit check is to prevent
+	 * explosion particles from missiles from continuing to inflict damage.
+	 * @return {number} 0 = dead, 1 = decremented, 2 = neither
+	 */
+	function deHp(sprite){
+		if(sprite.hp && sprite.hp > 0){
+			if(typeof sprite.lastHit == 'undefined' || performance.now()-sprite.lastHit > 1000){
+				sprite.lastHit = performance.now();
+				sprite.hp--;
+				return 1;
+			} else {
+				return 2;
+			}
+		}
+
+		// Sprite has no hitpoints.
+		return 0;
 	}
 
 	function drawWorld(delta){
