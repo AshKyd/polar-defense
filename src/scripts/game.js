@@ -13,7 +13,8 @@ var Game = function(canv,opts){
 	canv.width = max;
 	canv.height = max;
 
-	var lives = opts.lives || 3;
+	opts.lives = opts.lives || 3;
+	opts.powerups = opts.powerups || {};
 
 	var fps = 30;
 	var fpsMin = 100;
@@ -91,6 +92,18 @@ var Game = function(canv,opts){
 			kinetic: true,
 			cull: true
 		},player.pos.r+player.h, player.pos.d);
+		if(opts.powerups.triplefire){
+			mkSprite({
+				behaviour: 'missile1',
+				kinetic: true,
+				cull: true
+			},player.pos.r+player.h, player.pos.d+5);
+			mkSprite({
+				behaviour: 'missile1',
+				kinetic: true,
+				cull: true
+			},player.pos.r+player.h, player.pos.d-5);
+		}
 		sounds.play('shoot');
 	};
 
@@ -118,6 +131,7 @@ var Game = function(canv,opts){
 		if(nextWave.flash){
 			opts.flash();
 		}
+		mkPowerup();
 		nextWave.sprites.forEach(function(wave){
 			for(var i=0; i<wave.rows; i++){
 				for(var j=0; j<wave.cols; j++){
@@ -135,14 +149,23 @@ var Game = function(canv,opts){
 		waveNum++;
 	}
 
+	function mkPowerup(){
+		var powerup = 'triplefire';
+		if(opts.powerups[powerup]){
+			powerup = '+1';
+		}
+		mkSprite({
+			behaviour: 'powerup',
+			type: powerup
+		},max,180);
+	}
+
 	function zenWave(invadersRemaining){
 		var effectiveWaveNum = m.min(waveNum,200);
 		if(invadersRemaining > effectiveWaveNum/3){
 			return;
 		}
 		var colorKey = Object.keys(colors);
-
-		// console.table([0,10,20,30,40,50,60,70,80,90,100,200].map(function(waveNum){
 
 		var modifier = (effectiveWaveNum++)/100;
 		var cols = (10*modifier)+4;
@@ -164,8 +187,6 @@ var Game = function(canv,opts){
 		            dir: dir,
 		            color: color,
 		            start: 1,
-		            rows:rows,
-		            cols:cols,
 		            missileInterval: missileInterval/2,
 		            speedModD: 0.5,
 		            speedModR: 0,
@@ -175,6 +196,19 @@ var Game = function(canv,opts){
 		            score:1000
 				},max,d+i*60);
 			}
+
+
+			mkSprite({
+				behaviour:'particle',
+				kinetic: false,
+				stroke:'#fff',
+				text: 'lol',
+				textSize:m.random()*30+30,
+				w: 100,
+				life: 1500,
+				pos: new Polar(planet/2,m.random()*360),
+				momentum: [m.random()/10,m.random()-.5]
+			},max,d+180);
 			return;
 		}
 
@@ -197,10 +231,6 @@ var Game = function(canv,opts){
 				mkSprite(conf,max+j*offset,i*4*m.PI+0.5);
 			}
 		}
-
-			// return conf;
-		// }));
-		// throw 'exit';
 	}
 	newWave();
 
@@ -210,7 +240,7 @@ var Game = function(canv,opts){
 			waveNum: waveNum,
 			gameType: opts.level.waves === 'zen' ? 'zen' : 'campaign',
 			levelNum: opts.levelNum,
-			lives: lives
+			lives: opts.lives
 		}
 	}
 
@@ -261,6 +291,7 @@ var Game = function(canv,opts){
 		if(sprite.score){
 			score += sprite.score;
 		}
+
 		if(subtlety === true){
 			sprite.die();
 			return;
@@ -341,13 +372,16 @@ var Game = function(canv,opts){
 
 		if(doomsdaying){ // If already doomsdaying, don't do it again.
 			return;
-		} else if(!--lives){ // Decrement lives counter. When it's 0, game over.
+		} else if(!--opts.lives){ // Decrement lives counter. When it's 0, game over.
 			gameover();
 			return;
 		}
 
 		// FIXME: Remove after beta.
 		log('doomsday',getStats());
+
+		// Sorry, you lose all your powerups.
+		opts.powerups = {};
 
 		// Prevent doomsday happening twice at once.
 		doomsdaying = 1;
@@ -387,7 +421,7 @@ var Game = function(canv,opts){
 		// Set timeout so we can start again.
 		t(function(){
 			doomsdaying = gameovering;
-			if(lives>0){
+			if(opts.lives>0){
 				player.dead = 0;
 				sprites.push(player);
 				sounds.play('respawn');
@@ -404,7 +438,7 @@ var Game = function(canv,opts){
 		var dead = false;
 
 		sprites.forEach(function(currentSprite){
-			if(!currentSprite.kinetic){
+			if(!currentSprite.kinetic || currentSprite.behaviour == 'powerup'){
 				return;
 			}
 			if(currentSprite.pos.r <= planet && currentSprite.invader){
@@ -431,7 +465,16 @@ var Game = function(canv,opts){
 				);
 			});
 			if(collisions.length){
-				explodeSprite(currentSprite);
+				if(currentSprite.src == 'player' || currentSprite.behaviour == 'missile1'){
+					collisions
+						.filter(function(sprite){return sprite.behaviour == 'powerup'})
+						.forEach(function(powerup){
+							powerup.b.go.call(powerup,opts);
+							powerup.dead = true;
+						});
+				} else {
+					explodeSprite(currentSprite);
+				}
 				collisions.forEach(explodeSprite);
 			}
 		});
@@ -509,7 +552,7 @@ var Game = function(canv,opts){
 
 		var livesText = '';
 		ctx.font = 'bold 30px Arial';
-		for(var i=0;i<lives;i++){
+		for(var i=0;i<opts.lives;i++){
 			livesText += '♥ ';
 		}
 		ctx.fillStyle = '#f22';

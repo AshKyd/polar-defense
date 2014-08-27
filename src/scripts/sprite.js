@@ -12,6 +12,7 @@ var behaviours = {
 	missile1: require('./bhv.missile1'),
 	inv1: require('./bhv.inv1'),
 	invmiss: require('./bhv.invmiss'),
+	powerup: require('./bhv.powerup'),
 };
 
 /**
@@ -101,18 +102,6 @@ sp.draw = function(delta, ctx){
 		_this.b.tick.call(_this,delta);
 	}
 
-	// DEBUG STUFF. Display bounding boxes.
-	// Commented out because 13k.
-	// if(this.kinetic){
-	// 	var bb = _this.box();
-	// 	draw.line(ctx,[
-	// 		bb[0].toCartesian(),
-	// 		new Polar(bb[0].r,bb[1].d).toCartesian(),
-	// 		bb[1].toCartesian(),
-	// 		new Polar(bb[1].r,bb[0].d).toCartesian()
-	// 	]);
-	// }
-
 	ctx.save();
 	if(!isNaN(this.alpha)){
 		ctx.globalAlpha = this.alpha;
@@ -130,11 +119,8 @@ sp.draw = function(delta, ctx){
 	} else {
 		var cartesian = _this.pos.toCartesian();
 		var textSize = _this.textSize||30;
-		if(this.text) {
-			ctx.font = textSize+'px Arial';
-			ctx.fillStyle = _this.stroke;
-			ctx.fillText(_this.text,cartesian.x,cartesian.y);
-		} else {
+
+		if(!this.text || this.outline){
 			draw.circle(ctx,cartesian,{
 				width: _this.w,
 				fill: _this.fill || '#fff',
@@ -143,8 +129,28 @@ sp.draw = function(delta, ctx){
 				w: _this.strokeWidth
 			});
 		}
+
+		if(this.text) {
+			ctx.font = textSize+'px Arial';
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'middle'
+			ctx.fillStyle = _this.stroke;
+			ctx.fillText(_this.text,cartesian.x,cartesian.y);
+		}
 	}
 	ctx.restore();
+
+	// DEBUG STUFF. Display bounding boxes.
+	// Commented out because 13k.
+	// if(this.kinetic){
+	// 	var bb = _this.box();
+	// 	draw.line(ctx,[
+	// 		bb[0].toCartesian(),
+	// 		new Polar(bb[0].r,bb[1].d).toCartesian(),
+	// 		bb[1].toCartesian(),
+	// 		new Polar(bb[1].r,bb[0].d).toCartesian()
+	// 	]);
+	// }
 
 	return _this;
 };
@@ -156,10 +162,15 @@ sp.draw = function(delta, ctx){
  */
 sp.box = function(){
 	var _this = this;
-	var radialWidth = (_this.pos.r)/25;
+	var dMod;
+	if(!this.img){
+		dMod = _this.pos.r/50;
+	} else {
+		dMod = _this.pos.r/25;
+	}
 	return [
-		new Polar(this.pos.r+_this.h,this.pos.d-_this.w/radialWidth),
-		new Polar(this.pos.r,this.pos.d+_this.w/radialWidth)
+		new Polar(this.pos.r+_this.h,this.pos.d-_this.w/dMod),
+		new Polar(this.pos.r,this.pos.d+_this.w/dMod)
 	];
 };
 

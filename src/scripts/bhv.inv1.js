@@ -1,15 +1,11 @@
 var sounds = require('./audio');
 var lastMissile = 0;
-var colors = require('./colors');
 module.exports = {
 	init: function(opts){
 		this.src = this.src || 'invader';
 		this.score = this.score || 100;
 		this.kinetic = 1;
 		this.invader = 1;
-		if(opts.color){
-			this.colors = colors[opts.color];
-		}
 		this.lastAlt = performance.now();
 	},
 	tick: function(delta){
