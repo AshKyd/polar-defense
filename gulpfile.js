@@ -14,20 +14,20 @@ gulp.task('js', function() {
           debug : false
         }))
         // .pipe(uglify({
-        // 	compress: {
-        // 		unsafe: true,
-        // 		hoist_vars: true
-        // 	}
+        //     compress: {
+        //         unsafe: true,
+        //         hoist_vars: true
+        //     }
         // }))
         .pipe(gulp.dest('dist/scripts/'));
 });
 
 gulp.task('deploy',function(cb){
-	rsync({
-		src:'dist/',
-		dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defense/',
-		args: 'avz'
-	},cb);
+    rsync({
+        src:'dist/',
+        dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defense/',
+        args: 'avz'
+    },cb);
 });
 
 gulp.task('html', function(){
@@ -42,43 +42,43 @@ gulp.task('css', function(){
 });
 
 gulp.task('img', function(){
-	gulp.src('src/img-dist/*')
-		.pipe(gulp.dest('dist/'));
+    gulp.src('src/img-dist/*')
+        .pipe(gulp.dest('dist/'));
 });
 
 gulp.task('connect',function(){
-	connect.server({
-		root: 'dist',
-		livereload: false
-	});
+    connect.server({
+        root: 'dist',
+        livereload: false
+    });
 });
 
 gulp.task('zip',function(){
     gulp.src('dist/**')
-    	.pipe(zip('dist.zip'))
+        .pipe(zip('dist.zip'))
         .pipe(gulp.dest('./'))
-    	.pipe(through(function(a){this.queue(a);},function(){
-    		var max = 13312;
+        .pipe(through(function(a){this.queue(a);},function(){
+            var max = 13312;
 
             // It occurs I don't know what I'm doing, and I con't care enough
             // to find out right now.
             setTimeout(function(){
                 try{
-            		var size = fs.statSync(__dirname+'/dist.zip').size;
-            		if(size > max){
-            			console.error('FILESIZE OVER: ',size);
-            		} else {
-            			console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+(max-size)+' bytes left.');
-            		}
+                    var size = fs.statSync(__dirname+'/dist.zip').size;
+                    if(size > max){
+                        console.error('FILESIZE OVER: ',size);
+                    } else {
+                        console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+(max-size)+' bytes left.');
+                    }
                 } catch(e){
-                    
+
                 }
             },200);
-    	}));
+        }));
 });
 
 gulp.task('watch', function () {
-	gulp.watch(['src/index.html','src/**/*'], ['build']);
+    gulp.watch(['src/index.html','src/**/*'], ['build']);
 });
 
 gulp.task('build',['js','css','html','img','zip']);
