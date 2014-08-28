@@ -40,7 +40,7 @@ sp.createImg = function(img){
     var _this = this;
 
     var key = img + this.color;
-    if(cache[key]){
+    if(cache[key] && cache[key].width != 0){
         _this.img = cache[key];
         _this.h = _this.img.height * (_this.w / _this.img.width);
     } else {
@@ -50,9 +50,9 @@ sp.createImg = function(img){
             _this.h = _this.img.height * (_this.w / _this.img.width);
         };
         var imgContents = images[img];
-        if(_this.colors){
-            for(var original in _this.colors){
-                imgContents = imgContents.replace(new RegExp(original,'g'),_this.colors[original]);
+        if(_this.color){
+            for(var original in colors[_this.color]){
+                imgContents = imgContents.replace(new RegExp(original,'g'),colors[_this.color][original]);
             }
         }
         var uri = 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(imgContents)));

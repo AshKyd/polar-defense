@@ -6,7 +6,7 @@
     "size":10,
     "fill":"#00d400",
     "stroke":"#00aa00",
-    "r": 1.25,
+    "r": 0.95,
     "waves": [{
         "proceedAfter": 1,
         "flash":false,

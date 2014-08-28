@@ -10,7 +10,7 @@ module.exports = {
     messages:{
         gameWon:{
             "heading":"Bravo!",
-            "message":"<p>Splendid, truly splendid. You've eliminated all of the nuisance invaders!</p><p>Have yourself a cola, by Jove you've earned it!</p><p>As a way of saying thanks, we've unlocked zen mode on the menu where you can blast aliens until your heart's content.</p>"
+            "message":"<p>Splendid, truly splendid. You've eliminated all of the nuisance invaders!</p><p>Have yourself a cola, by Jove you've earned it!</p><p>As a way of saying thanks, we've unlocked infinite mode on the menu where you can blast aliens until your heart's content.</p>"
         },
         gameOver:{
             "heading":"Oh well",

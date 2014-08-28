@@ -15,7 +15,7 @@ var addEventListener = function(l,fn){
 
 var touchStart;
 addEventListener('touchstart', function(e){
-    if(e.srcElement.nodeName === 'A'){
+    if(e.target.nodeName === 'A'){
         return;
     }
     exported.x = 0;
@@ -25,7 +25,7 @@ addEventListener('touchstart', function(e){
     return false;
 });
 addEventListener('touchmove', function(e){
-    if(e.srcElement.nodeName === 'A'){
+    if(e.target.nodeName === 'A'){
         return;
     }
     exported.x = e.targetTouches[0].clientX - touchStart.clientX;
@@ -38,7 +38,7 @@ addEventListener('touchmove', function(e){
 });
 
 addEventListener('touchend', function(e){
-    if(e.srcElement.nodeName === 'A'){
+    if(e.target.nodeName === 'A'){
         return;
     }
     if(m.abs(exported.x) < 10 && m.abs(exported.y) < 10){
@@ -50,7 +50,7 @@ addEventListener('touchend', function(e){
 
 
 addEventListener('mouseup', function(e){
-    if(e.srcElement.nodeName === 'A'){
+    if(e.target.nodeName === 'A'){
         return;
     }
     exported.click();

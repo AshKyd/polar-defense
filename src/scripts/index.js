@@ -120,8 +120,8 @@ function zenMode(){
 function mainMenu(){
     var options = {
         '☢;New Campaign': newGame,
-        '☣;Zen Mode': zenMode,
-        '🔉;Toggle Sound': toggleSound,
+        '☣;Infinite Mode': zenMode,
+        '♪;Toggle Sound': toggleSound,
         'ℹ;About': about
     };
     var div = doc.createElement('p');

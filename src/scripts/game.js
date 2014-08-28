@@ -131,7 +131,9 @@ var Game = function(canv,opts){
         if(nextWave.flash){
             opts.flash();
         }
-        mkPowerup();
+        if(waveNum % 3 == 0){
+            mkPowerup();
+        }
         nextWave.sprites.forEach(function(wave){
             for(var i=0; i<wave.rows; i++){
                 for(var j=0; j<wave.cols; j++){
@@ -157,7 +159,7 @@ var Game = function(canv,opts){
         mkSprite({
             behaviour: 'powerup',
             type: powerup
-        },max,180);
+        },max,m.random()*360);
     }
 
     function zenWave(invadersRemaining){
@@ -167,13 +169,19 @@ var Game = function(canv,opts){
         }
         var colorKey = Object.keys(colors);
 
-        var modifier = (effectiveWaveNum++)/100;
+        var modifier = (effectiveWaveNum)/100;
         var cols = (10*modifier)+4;
         var rows = (5*modifier)+1+m.round(m.random());
         var color = colorKey[m.round(m.random()*(colorKey.length-1))];
         var dir = m.round(m.random()*3)-2;
         var d = m.random()*360;
         var missileInterval = 5000/((1+modifier))/(!dir?2:1);
+
+
+        if(waveNum % 8 == 0){
+            mkPowerup();
+        }
+        waveNum++;
 
         // Every 10 waves, spawn a boss!
         if(effectiveWaveNum%10 == 0){
@@ -228,7 +236,7 @@ var Game = function(canv,opts){
                     // hp: 2,
                     missileInterval: missileInterval
                 };
-                mkSprite(conf,max+j*offset,i*4*m.PI+0.5);
+                mkSprite(conf,max+j*offset,d+i*4*m.PI+0.5);
             }
         }
     }
@@ -255,19 +263,19 @@ var Game = function(canv,opts){
 
         // Here's where it starts to slow down. Throttle when we're
         // looking iffy.
-        var throttle = fps < 25 ? 2 : 10;
+        var throttle = fps < 25 || sprites.length > 250 ? 2 : 10;
 
         var hitpoint = deHp(sprite);
         if(hitpoint && subtlety !== false){
             sounds.play('miss');
             if(hitpoint === 1){
-                for(var i=0; i<fps*2; i++){
+                for(var i=0; i<throttle*2; i++){
                     mkSprite({
                         behaviour:'particle',
                         kinetic: false,
                         fill: '#fff',
                         w: 2,
-                        life: m.random()*1500,
+                        life: m.random()*throttle*150,
                         pos: new Polar(sprite.pos.r,sprite.pos.d),
                         momentum: [(m.random()-.5)/10,(m.random()-0.5)]
                     });
@@ -277,13 +285,13 @@ var Game = function(canv,opts){
         }
         sprite.dead = true;
 
-        for(var i=0; i<fps; i++){
+        for(var i=0; i<throttle; i++){
             mkSprite({
                 behaviour:'particle',
                 kinetic: false,
                 fill: m.random > 0.5 ? '#222' : '#333',
                 w: sprite.w/4 || planet/8,
-                life: m.random()*2000+1000,
+                life: m.random()*(throttle*200)+throttle*100,
                 pos: new Polar(sprite.pos.r,sprite.pos.d),
                 momentum: [(m.random()-.5)/10,(m.random()-0.5)]
             });
@@ -547,7 +555,7 @@ var Game = function(canv,opts){
         ctx.fillText("Score: "+score, -max/2+10, -max/2+30);
 
         ctx.fillText(m.round(fps)+'fps - '+
-            +m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax', -max/2+10, max/2-100);
+            +m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax - '+sprites.length+' sprites', -max/2+10, max/2-100);
 
 
         var livesText = '';
