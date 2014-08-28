@@ -39,7 +39,7 @@ module.exports = {
         this.mkSprite({
             behaviour:'particle',
             kinetic: 0,
-            fill: this.fill,
+            fill: this.stroke,
             life: m.random()*500,
             pos: new Polar(this.pos.r,this.pos.d),
             momentum: [(m.random()-.5)/5,m.random()-.5],

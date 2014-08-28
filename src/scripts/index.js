@@ -187,7 +187,8 @@ function newGame(){
                 level: thisLevel,
                 levelNum: level++,
                 lives: stats.lives,
-                score: stats.score
+                score: stats.score,
+                powerups: stats.powerups
             });
         });
     }

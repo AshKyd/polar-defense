@@ -9,10 +9,10 @@ var colors = require('./colors');
 var Game = function(canv,opts){
     opts = opts || {};
     var max = m.min(innerHeight,innerWidth);
-    var score = opts.score || 0;
     canv.width = max;
     canv.height = max;
 
+    opts.score = opts.score || 0;
     opts.lives = opts.lives || 3;
     opts.powerups = opts.powerups || {};
 
@@ -124,7 +124,7 @@ var Game = function(canv,opts){
             newGaming = true;
             window.setTimeout(function(){
                 paused = true;
-                opts.nextLevel(getStats());
+                opts.nextLevel(opts);
             },5000);
             return;
         }
@@ -244,7 +244,7 @@ var Game = function(canv,opts){
 
     function getStats(){
         return {
-            score: score,
+            score: opts.score,
             waveNum: waveNum,
             gameType: opts.level.waves === 'zen' ? 'zen' : 'campaign',
             levelNum: opts.levelNum,
@@ -297,7 +297,7 @@ var Game = function(canv,opts){
             });
         }
         if(sprite.score){
-            score += sprite.score;
+            opts.score += sprite.score;
         }
 
         if(subtlety === true){
@@ -317,7 +317,7 @@ var Game = function(canv,opts){
         for(var i=0; i<(subtlety||throttle); i++){
             mkSprite({
                 behaviour:'particle',
-                kinetic: i<3,
+                kinetic: false,
                 life: m.random()*500,
                 pos: new Polar(sprite.pos.r,sprite.pos.d),
                 momentum: [m.random(),m.random()]
@@ -552,7 +552,7 @@ var Game = function(canv,opts){
 
         ctx.font = 'bold 20px Arial';
         ctx.fillStyle = '#fff';
-        ctx.fillText("Score: "+score, -max/2+10, -max/2+30);
+        ctx.fillText("Score: "+opts.score, -max/2+10, -max/2+30);
 
         ctx.fillText(m.round(fps)+'fps - '+
             +m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax - '+sprites.length+' sprites', -max/2+10, max/2-100);
