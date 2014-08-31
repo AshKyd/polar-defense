@@ -25,7 +25,7 @@ function showMessage(opts,cb){
     }
     doc.body.appendChild(message);
     t(function(){
-        message.className = 'visible';
+        message.className = 'visible '+(opts.className||'');
     });
     touch.click = function(){
         message.className = '';
@@ -145,7 +145,8 @@ function mainMenu(){
     showMessage({
         heading: 'Polar Defender',
         message: '',
-        dom: div
+        dom: div,
+        className: 'main'
     });
 }
 

@@ -6,11 +6,15 @@ var sounds = require('./audio');
 var colors = require('./colors');
 var ambience = require('./ambience');
 
+var starfields = {};
+
 var Game = function(canv,opts){
 
     opts = opts || {};
+
+    // Apparently this resets the previous transform. :?
     var max = canv.width;
-    var starfield = ambience.drawStarfield(max,max);
+    canv.width = max;
 
     opts.score = opts.score || 0;
     opts.lives = opts.lives || 3;
@@ -46,12 +50,13 @@ var Game = function(canv,opts){
     }
     Sprite.prototype.mkSprite = mkSprite;
 
-    // Halo around the planet. Static image.
-    // var planetHalo = mkSprite({
-    //     src: 'halo',
-    //     w: planet*12,
-    //     kinetic:false
-    // },-planet*6,0);
+    if(starfields[planet]){
+        var starfield = starfields[planet];
+    } else {
+        var starfield = ambience.drawStarfield(max,max);
+        starfields[planet] = starfield;
+    }
+
 
     var planetHalo = mkSprite({
         kinetic:false,
