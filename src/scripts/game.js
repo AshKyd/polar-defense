@@ -1,16 +1,16 @@
 var p = require('./polar');
 var Cartesian = p.cartesian;
 var Polar = p.polar;
-var draw = require('./canv');
 var Sprite = require('./sprite');
 var sounds = require('./audio');
 var colors = require('./colors');
+var ambience = require('./ambience');
 
 var Game = function(canv,opts){
+
     opts = opts || {};
-    var max = m.min(innerHeight,innerWidth);
-    canv.width = max;
-    canv.height = max;
+    var max = canv.width;
+    var starfield = ambience.drawStarfield(max,max);
 
     opts.score = opts.score || 0;
     opts.lives = opts.lives || 3;
@@ -56,8 +56,8 @@ var Game = function(canv,opts){
     var planetHalo = mkSprite({
         kinetic:false,
         fill:'#00e9ff',
-        w:planet*1.2,
-        alpha:1
+        w:planet*1.4,
+        alpha:.2
     },0.001,0.001);
 
 
@@ -90,18 +90,18 @@ var Game = function(canv,opts){
         mkSprite({
             behaviour: 'missile1',
             kinetic: true,
-            cull: true
+            cullMax: true
         },player.pos.r+player.h, player.pos.d);
         if(opts.powerups.triplefire){
             mkSprite({
                 behaviour: 'missile1',
                 kinetic: true,
-                cull: true
+                cullMax: true
             },player.pos.r+player.h, player.pos.d+5);
             mkSprite({
                 behaviour: 'missile1',
                 kinetic: true,
-                cull: true
+                cullMax: true
             },player.pos.r+player.h, player.pos.d-5);
         }
         sounds.play('shoot');
@@ -522,21 +522,20 @@ var Game = function(canv,opts){
 
         var invaders = 0;
         sprites = sprites.filter(function(currentSprite){
-            if(currentSprite.cull){
-                if(currentSprite.pos.r > max*.75){
-                    currentSprite.score = 0;
-                    return false;
-                }
-                if(currentSprite.pos.r < planet){
-                    currentSprite.score = 0;
-                    if(currentSprite.kinetic){
-                        explodeSprite(currentSprite);
-                    } else {
-                        if(currentSprite.behaviour == 'particle' && player.dead){
-                            return true;
-                        }
-                        return false;
+            if(currentSprite.cullMax && currentSprite.pos.r > max*.75){
+                currentSprite.score = 0;
+                return false;
+            }
+
+            if(currentSprite.cullMin && currentSprite.pos.r < planet){
+                currentSprite.score = 0;
+                if(currentSprite.kinetic){
+                    explodeSprite(currentSprite);
+                } else {
+                    if(currentSprite.behaviour == 'particle' && player.dead){
+                        return true;
                     }
+                    return false;
                 }
             }
             // Count up our invaders.
@@ -575,8 +574,9 @@ var Game = function(canv,opts){
             //get out.
             return;
         }
-
-        ctx.clearRect(-max/2,-max/2,max,max);
+        var x = -max/2;
+        ctx.clearRect(x,x,max,max);
+        ctx.drawImage(starfield, x, x)
         var delta = performance.now() - lastFrame;
 
         fps = (fps*9 + 1000/delta)/10;
@@ -588,7 +588,7 @@ var Game = function(canv,opts){
         if(touch.hStart){
             // From 0 to 6 in 1 seconds.
             var diff = m.min(6, (performance.now() - touch.hStart)/1000*6);
-            player.posInc(0,touch.h*(planet/50+diff));
+            player.posInc(0,touch.h*(max/1000+diff));
         } else {
             // FIXME: This mightn't work on different sized screens.
             player.posInc(0,touch.h/planet*(delta/2));

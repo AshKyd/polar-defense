@@ -21,6 +21,7 @@ module.exports = {
             }
         }
 
+        this.cullMin = 1;
         this.kinetic = 1;
         this.dest = this.max;
         this.w = this.max/90;

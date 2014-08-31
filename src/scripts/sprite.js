@@ -122,7 +122,6 @@ sp.draw = function(delta, ctx){
 
         if(!this.text || this.outline){
             draw.circle(ctx,cartesian,{
-                width: _this.w,
                 fill: _this.fill || '#fff',
                 stroke: _this.stroke,
                 width: _this.w,

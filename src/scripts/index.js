@@ -8,6 +8,8 @@ var doc = document;
 
 var Game = require('./game');
 var sounds = require('./audio');
+var ambience = require('./ambience');
+
 var touch;
 var canvas;
 
@@ -208,6 +210,13 @@ window.onload = function(){
 
     touch = require('./touch');
     canvas = doc.querySelector('#c');
+
+    var max = m.min(innerHeight,innerWidth);
+    canvas.width = max;
+    canvas.height = max;
+
+    var ctx = canvas.getContext('2d');
+    ctx.drawImage(ambience.drawStarfield(max,max), 0, 0, max, max);
 
     mainMenu();
     log('started');

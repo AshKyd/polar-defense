@@ -1,6 +1,7 @@
 module.exports = {
     init: function(opts){
-        this.cull=true;
+        this.cullMax=1;
+        this.cullMin=1;
         this.w = opts.w || m.random()*3+1;
         this.h = this.w;
         var red = 128+m.round(m.random()*128);

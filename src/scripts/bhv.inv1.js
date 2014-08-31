@@ -31,7 +31,7 @@ module.exports = {
 
                 this.mkSprite({
                     behaviour: 'invmiss',
-                    cull:1
+                    cullMin:1
                 },this.pos.r, this.pos.d);
 
             }
