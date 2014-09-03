@@ -46,6 +46,7 @@ addEventListener('touchend', function(e){
     }
     exported.x = 0;
     exported.y = 0;
+    exported.h = 0;
 });
 
 

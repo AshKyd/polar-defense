@@ -10,7 +10,9 @@
     "waves": [{
         "proceedAfter": 1,
         "flash":false,
+        "powerup": 90,
         "sprites": [{
+            "d": 200,
             "rows": 2,
             "cols": 2,
             "src": "i1",
@@ -24,6 +26,7 @@
     },{
         "proceedAfter": 0,
         "sprites": [{
+            "d": 290,
             "rows": 2,
             "cols": 2,
             "src": "i1",

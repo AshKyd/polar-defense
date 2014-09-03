@@ -172,5 +172,8 @@ sp.box = function(){
         new Polar(this.pos.r,this.pos.d+_this.w/dMod)
     ];
 };
+sp.die = function(){
+    this.b.die && this.b.die.call(this);
+}
 
 module.exports = Sprite;

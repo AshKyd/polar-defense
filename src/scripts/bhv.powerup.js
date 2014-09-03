@@ -35,7 +35,7 @@ module.exports = {
         this.strokeWidth = 5;
     },
     tick: function(delta){
-        this.posInc(delta/2*this.momentum[0],delta/100*this.momentum[1]);
+        this.posInc(delta/3*this.momentum[0],delta/300*this.momentum[1]);
 
         this.mkSprite({
             behaviour:'particle',
@@ -50,5 +50,18 @@ module.exports = {
     go: function(opts){
         this.action(opts);
         sounds.play('menu');
+    },
+    die: function(){
+        for(var i = 0; i<30; i++){
+            this.mkSprite({
+                behaviour:'particle',
+                kinetic: 0,
+                fill: i<15 ? this.stroke : this.fill,
+                life: m.random()*100+1000,
+                pos: new Polar(this.pos.r,this.pos.d),
+                momentum: [(m.random()-.5)/5,m.random()-.5],
+                w: m.random() * 3
+            });
+        }
     }
 };

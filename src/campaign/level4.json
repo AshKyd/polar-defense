@@ -8,6 +8,7 @@
     "waves": [{
         "proceedAfter": 1,
         "sprites": [{
+            "d":90,
             "rows": 15,
             "cols": 4,
             "src": "i1",
@@ -19,6 +20,7 @@
             "missileInterval": 2000,
             "speedModR": 1.5
         }, {
+            "d":90,
             "rows": 15,
             "cols": 4,
             "src": "i1",
@@ -33,6 +35,7 @@
     },{
         "proceedAfter": 15,
         "sprites": [{
+            "d":240,
             "rows": 7,
             "cols": 3,
             "src": "i3",
@@ -47,7 +50,9 @@
         }]
     }, {
         "proceedAfter": 1,
+        "powerup": 1,
         "sprites": [{
+            "d":190,
             "rows": 16,
             "cols": 4,
             "src": "i1",
@@ -59,6 +64,7 @@
             "missileInterval": 2000,
             "speedModR": 1.5
         }, {
+            "d":90,
             "rows": 16,
             "cols": 4,
             "src": "i1",
@@ -73,6 +79,7 @@
     },{
         "proceedAfter": 1,
         "sprites": [{
+            "d":190,
             "rows": 15,
             "cols": 4,
             "src": "i1",
@@ -84,6 +91,7 @@
             "missileInterval": 2000,
             "speedModR": 1.5
         }, {
+            "d":190,
             "rows": 15,
             "cols": 4,
             "src": "i1",
@@ -98,6 +106,7 @@
     },{
         "proceedAfter": 15,
         "sprites": [{
+            "d":0,
             "rows": 7,
             "cols": 2,
             "src": "i2",
@@ -109,6 +118,7 @@
             "speedModR": 2,
             "missileInterval": 2000
         }, {
+            "d":190,
             "rows": 7,
             "cols": 5,
             "src": "i2",
@@ -123,6 +133,7 @@
     }, {
         "proceedAfter": 15,
         "sprites": [{
+            "d":190,
             "rows": 20,
             "cols": 4,
             "src": "i1",
@@ -134,6 +145,7 @@
             "missileInterval": 2000,
             "speedModR": 1.5
         }, {
+            "d":0,
             "rows": 20,
             "cols": 4,
             "src": "i1",
@@ -148,6 +160,7 @@
     }, {
         "proceedAfter": 15,
         "sprites": [{
+            "d":90,
             "rows": 7,
             "cols": 2,
             "src": "i3",
@@ -160,6 +173,7 @@
             "hp": 2,
             "missileInterval": 2000
         }, {
+            "d":270,
             "rows": 7,
             "cols": 5,
             "src": "i3",
@@ -175,7 +189,9 @@
     }, {
         "proceedAfter": 2,
         "flash":true,
+        "powerup": 60,
         "sprites": [{
+            "d":270,
             "rows": 1,
             "cols": 1,
             "src": "boss1",

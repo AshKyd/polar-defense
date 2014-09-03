@@ -7,25 +7,16 @@
     "r": 0.95,
     "waves": [{
         "proceedAfter": 1,
+        "powerup": 190,
         "sprites": [{
             "rows": 15,
             "cols": 4,
             "src": "i1",
             "dest": 5,
             "dir": -1,
-            "w": 2.5,
+            "w": 3.5,
             "color": "y",
             "start": 1,
-            "missileInterval": 2000
-        }, {
-            "rows": 15,
-            "cols": 4,
-            "src": "i1",
-            "dest": 8,
-            "dir": 1,
-            "w": 2.5,
-            "color": "p",
-            "start": 1.5,
             "missileInterval": 2000
         }]
     },{
@@ -42,6 +33,7 @@
             "speedModR": 1.5,
             "missileInterval": 3000
         }, {
+            "d":180,
             "rows": 7,
             "cols": 2,
             "src": "i2",
@@ -55,6 +47,7 @@
     }, {
         "proceedAfter": 15,
         "sprites": [{
+            "d":180,
             "rows": 16,
             "cols": 4,
             "src": "i1",

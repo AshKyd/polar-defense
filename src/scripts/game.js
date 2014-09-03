@@ -136,8 +136,8 @@ var Game = function(canv,opts){
         if(nextWave.flash){
             opts.flash();
         }
-        if(waveNum % 3 == 0){
-            mkPowerup();
+        if(nextWave.powerup){
+            mkPowerup(nextWave.powerup);
         }
         nextWave.sprites.forEach(function(wave){
             for(var i=0; i<wave.rows; i++){
@@ -156,7 +156,7 @@ var Game = function(canv,opts){
         waveNum++;
     }
 
-    function mkPowerup(){
+    function mkPowerup(d){
         var powerup = 'triplefire';
         if(opts.powerups[powerup]){
             powerup = '+1';
@@ -164,7 +164,7 @@ var Game = function(canv,opts){
         mkSprite({
             behaviour: 'powerup',
             type: powerup
-        },max,m.random()*360);
+        },max,d||m.random()*360);
     }
 
     function zenWave(invadersRemaining){
@@ -451,16 +451,20 @@ var Game = function(canv,opts){
         var dead = false;
 
         sprites.forEach(function(currentSprite){
+            // Remove any sprites that are outside of bounds
             if(!currentSprite.kinetic || currentSprite.behaviour == 'powerup'){
                 return;
             }
             if(currentSprite.pos.r <= planet && currentSprite.invader){
                 dead = true;
+                currentSprite.die && currentSprite.die();
 
-                // Don't count invaders that hit the planet as having got through.
+                // Don't count this as scoring any points.
                 currentSprite.score = 0;
                 return;
             }
+
+            // Check for collisions
             var thisBox = currentSprite.box();
             var collisions = sprites.filter(function(thatSprite){
                 if(!thatSprite.kinetic || thatSprite.behaviour == currentSprite.behaviour){
@@ -478,12 +482,14 @@ var Game = function(canv,opts){
                 );
             });
             if(collisions.length){
+                // Check for powerups
                 if(currentSprite.src == 'player' || currentSprite.behaviour == 'missile1'){
                     collisions
                         .filter(function(sprite){return sprite.behaviour == 'powerup'})
                         .forEach(function(powerup){
                             powerup.b.go.call(powerup,opts);
                             powerup.dead = true;
+                            powerup.die();
                         });
                 } else {
                     explodeSprite(currentSprite);
