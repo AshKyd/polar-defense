@@ -26,5 +26,17 @@ module.exports = {
         if(opts.fill){
             ctx.fill();
         }
+    },
+    grad: function(ctx, opts){
+        ctx.rect(0, 0, opts.r2*2, opts.r2*2);
+
+        var g = ctx.createRadialGradient(opts.x||opts.r2, opts.x||opts.r2, opts.r1, opts.x||opts.r2, opts.x||opts.r2, opts.r2);
+
+        g.addColorStop(0, opts.c1);
+        g.addColorStop(1, opts.c2);
+
+
+        ctx.fillStyle = g;
+        ctx.fill();
     }
 };

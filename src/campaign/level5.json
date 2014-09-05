@@ -2,9 +2,15 @@
     "title": "Hey, I just terraformed that!",
     "spiel": "<p>The scoundrel invaders are wreaking havoc on Mars, making the red planet even redder!</p><p>You're on fire with the controls, so go help put out the planet.</p>",
     "size": 11,
-    "fill": "#f00",
-    "stroke": "#800",
     "r": 0.95,
+    "p":{
+        "o1": "#621100",
+        "o2": "#723F36",
+        "c2": "#FF2F00",
+        "c3": "#BD2200",
+        "h1": "rgba(255,122,0,.8)",
+        "h2": "rgba(255,12,0,0)"
+    },
     "waves": [{
         "proceedAfter": 1,
         "sprites": [{

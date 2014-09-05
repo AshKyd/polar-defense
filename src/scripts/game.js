@@ -7,6 +7,7 @@ var colors = require('./colors');
 var ambience = require('./ambience');
 
 var starfields = {};
+var planets = {};
 
 var Game = function(canv,opts){
 
@@ -50,30 +51,25 @@ var Game = function(canv,opts){
     }
     Sprite.prototype.mkSprite = mkSprite;
 
+    var starfield,planetImg;
     if(starfields[planet]){
-        var starfield = starfields[planet];
+        starfield = starfields[planet];
+        planetImg = planets[planet];
     } else {
-        var starfield = ambience.drawStarfield(max,max);
+        starfield = ambience.drawStarfield(max,max);
         starfields[planet] = starfield;
+
+        opts.level.p.r = planet*4;
+        planetImg = ambience.drawPlanet(opts.level.p);
+        planets[planet] = planetImg;
     }
 
-
-    var planetHalo = mkSprite({
-        kinetic:false,
-        fill:'#00e9ff',
-        w:planet*1.4,
-        alpha:.2
-    },0.001,0.001);
-
-
-    var crust = planet/4;
     var planetSprite = mkSprite({
         kinetic:false,
-        fill:opts.level.fill,
-        stroke:opts.level.stroke,
-        w:planet-crust/2,
-        strokeWidth:crust
-    },0.001,0.001);
+        img: planetImg,
+        w:planet*2
+    },-planet,0);
+
 
     // 1p
     var player = mkSprite({
@@ -359,17 +355,8 @@ var Game = function(canv,opts){
         t(function(){
             sounds.play('boom');
             opts.rumble();
-            explodeSprite(planetSprite,40);
-
-            planetHalo.alpha = 1;
-            var haloFade = setInterval(function(){
-                planetHalo.alpha -= 0.025;
-                if(planetHalo.alpha <=0){
-                    planetHalo.alpha = 0;
-                    planetHalo.dead = 1;
-                    clearInterval(haloFade);
-                }
-            },20);
+            explodeSprite(mkSprite({w:planet},0.1,0),40);
+            planetSprite.dead = 1;
             t(function(){
                 opts.gameOver();
             },5000)
@@ -429,7 +416,7 @@ var Game = function(canv,opts){
                 });
             });
 
-        },1500);
+        },1010);
 
         // Set timeout so we can start again.
         t(function(){
@@ -533,6 +520,9 @@ var Game = function(canv,opts){
 
         var invaders = 0;
         sprites = sprites.filter(function(currentSprite){
+            if(currentSprite.dead){
+                return false;
+            }
             if(currentSprite.cullMax && currentSprite.pos.r > max*.75){
                 currentSprite.score = 0;
                 return false;
@@ -553,7 +543,7 @@ var Game = function(canv,opts){
             if(currentSprite.invader){
                 invaders++;
             }
-            return !currentSprite.dead;
+            return true;
         });
 
         if(!player.dead){

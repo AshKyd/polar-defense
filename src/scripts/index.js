@@ -43,28 +43,28 @@ function showMessage(opts,cb){
  * Note: remove this before release.
  */
 window.log = function(key,data){
-    window.console && console.log('Sending debug data',key,data);
-    var src = 'http://logs-01.loggly.com/inputs/76186e9d-1441-4b41-aca0-24182e4f56cf.gif?from=pd';
-    data = data || {};
-    data.key = key;
-    data.ua = navigator.userAgent;
-    data.resX = innerWidth;
-    data.resY = innerHeight;
+    // window.console && console.log('Sending debug data',key,data);
+    // var src = 'http://logs-01.loggly.com/inputs/76186e9d-1441-4b41-aca0-24182e4f56cf.gif?from=pd';
+    // data = data || {};
+    // data.key = key;
+    // data.ua = navigator.userAgent;
+    // data.resX = innerWidth;
+    // data.resY = innerHeight;
 
-    for(var i in data){
-        src += '&'+encodeURIComponent(i)+'='+encodeURIComponent(data[i]);
-    }
-    var pxl = doc.createElement('img');
-    pxl.src = src;
+    // for(var i in data){
+    //     src += '&'+encodeURIComponent(i)+'='+encodeURIComponent(data[i]);
+    // }
+    // var pxl = doc.createElement('img');
+    // pxl.src = src;
 };
 
-window.onerror = function(a,b,c){
-    log('onerror',{
-        message: a,
-        url: b,
-        lineNumber: c
-    });
-};
+// window.onerror = function(a,b,c){
+//     log('onerror',{
+//         message: a,
+//         url: b,
+//         lineNumber: c
+//     });
+// };
 
 function gameOver(stats){
     showMessage(campaign.messages.gameOver);

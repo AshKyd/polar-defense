@@ -4,9 +4,15 @@
     "spielM": "<p>Swipe left and right to move, and tap to&nbsp;fire!</p>",
     "spielD": "<p>Use your arrow keys to move, and space to&nbsp;fire!</p>",
     "size":10,
-    "fill":"#00d400",
-    "stroke":"#00aa00",
     "r": 0.95,
+    "p":{
+        "o1": "#0d76b8",
+        "o2": "#48b8fb",
+        "c2": "#156b15",
+        "c3": "#1C7D1C",
+        "h1": "#48d6f9",
+        "h2": "rgba(134,59,249,0)"
+    },
     "waves": [{
         "proceedAfter": 1,
         "flash":false,

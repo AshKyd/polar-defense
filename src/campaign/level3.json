@@ -2,9 +2,15 @@
     "title": "Incredible effort!",
     "spiel": "<p>You saved the planet once again from those abominable invaders, with minimal catastrophic destruction I might add.</p><p>This next wave might be smaller, but it looks like there's a mothership nearby.</p>",
     "size":10,
-    "fill":"#00d400",
-    "stroke":"#00aa00",
     "r": 0.95,
+    "p":{
+        "o1": "#0d76b8",
+        "o2": "#48b8fb",
+        "c2": "#156b15",
+        "c3": "#1C7D1C",
+        "h1": "#48d6f9",
+        "h2": "rgba(134,59,249,0)"
+    },
     "waves": [{
         "proceedAfter": 1,
         "powerup": 190,

@@ -5,6 +5,15 @@
     "fill":"yellow",
     "stroke":"orange",
     "r": 1.1,
+    "p":{
+        "o1": "#FFF500",
+        "o2": "#FFE300",
+        "c2": "#FFC700",
+        "c3": "#FFAF00",
+        "h1": "rgba(255,122,0,1)",
+        "h2": "rgba(255,12,0,0)",
+        "radiant":true
+    },
     "waves": [{
         "proceedAfter": 1,
         "sprites": [{

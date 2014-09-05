@@ -32,6 +32,10 @@ var Sprite = function(opts){
     if(_this.src){
         _this.createImg(_this.src);
     }
+    if(opts.img){
+        _this.img = opts.img;
+        _this.calcHeight();
+    }
 };
 
 var sp = Sprite.prototype;
@@ -42,12 +46,12 @@ sp.createImg = function(img){
     var key = img + this.color;
     if(cache[key] && cache[key].width != 0){
         _this.img = cache[key];
-        _this.h = _this.img.height * (_this.w / _this.img.width);
+        _this.calcHeight();
     } else {
         _this.img = document.createElement('img');
         // Calculate the height based on the width provided.
         _this.img.onload = function(){
-            _this.h = _this.img.height * (_this.w / _this.img.width);
+            _this.calcHeight();
         };
         var imgContents = images[img];
         if(_this.color){
@@ -60,6 +64,10 @@ sp.createImg = function(img){
         cache[key] = _this.img;
     }
 };
+
+sp.calcHeight = function(){
+    this.h = this.img.height * (this.w / this.img.width);
+}
 
 /**
  * Set the position.
@@ -142,13 +150,13 @@ sp.draw = function(delta, ctx){
     // DEBUG STUFF. Display bounding boxes.
     // Commented out because 13k.
     // if(this.kinetic){
-    //     var bb = _this.box();
-    //     draw.line(ctx,[
-    //         bb[0].toCartesian(),
-    //         new Polar(bb[0].r,bb[1].d).toCartesian(),
-    //         bb[1].toCartesian(),
-    //         new Polar(bb[1].r,bb[0].d).toCartesian()
-    //     ]);
+        // var bb = _this.box();
+        // draw.line(ctx,[
+        //     bb[0].toCartesian(),
+        //     new Polar(bb[0].r,bb[1].d).toCartesian(),
+        //     bb[1].toCartesian(),
+        //     new Polar(bb[1].r,bb[0].d).toCartesian()
+        // ]);
     // }
 
     return _this;
