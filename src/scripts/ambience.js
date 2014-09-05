@@ -65,11 +65,24 @@ function drawPlanet(opts){
         var x = Math.random()*opts.r*2;
         var y = Math.random()*opts.r*2
         ctx.beginPath();
-        ctx.arc(x, y, Math.random()*(opts.r/5), 0, 2 * Math.PI);
+        ctx.arc(x, y, Math.random()*(opts.r/10), 0, 2 * Math.PI);
         ctx.fillStyle = i > opts.r/2 ? opts.c3 : opts.c2;
         ctx.fill();
     }
+
+    if(opts.cloud){
+        for(var i=0;i<opts.r; i++){
+            ctx.globalAlpha = .1;
+            var x = Math.random()*opts.r*2;
+            var y = Math.random()*opts.r*2
+            ctx.beginPath();
+            ctx.arc(x, y, Math.random()*(opts.r/5), 0, 2 * Math.PI);
+            ctx.fillStyle = '#fff';
+            ctx.fill();
+        }
+    }
     ctx.globalAlpha = 1;
+
     // Add some atmosphere
     mkGradient(ctx,{
         r1: opts.r/2,

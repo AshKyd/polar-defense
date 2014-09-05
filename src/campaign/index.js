@@ -20,6 +20,10 @@ module.exports = {
             "heading":"You need an upgrade",
             "message":"<p>Your browser is a bit old. <a href=\"//whatbrowser.org\">Upgrade to play</a>.</p>"
         },
+        safari:{
+            "heading":"Bughunt Safari",
+            "message":"<p>Safari is a bit wonky right now (I'm working on fixing it). Meanwhile, try another browser or device.</p>"
+        },
         about:{
             heading:"Polar Defender",
             message:"<p>Polar defender is brought to you by <a href=\"//spacekidgames.com\">Space Kid Games</a>, aka <a href=\"//ash.ms\">Ash Kyd</a>."
