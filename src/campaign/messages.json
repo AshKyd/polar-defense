@@ -7,13 +7,13 @@
         "heading":"Oh well",
         "message":"<p>You put up a good fight, and we all appreciate your efforts.</p><p>If we can't have the planet nobody can, so I'm going to have to press the doomsday button.</p><p>If you have any last words, best get to saying them.</p>"
     },
+    "zen":{
+        "heading":"Infinite mode locked",
+        "message":"<p>Complete the campaign to unlock infitnite mode.</p>"
+    },
     "unsupported":{
         "heading":"You need an upgrade",
         "message":"<p>Your browser is a bit old. <a href=\"//whatbrowser.org\">Upgrade to play</a>.</p>"
-    },
-    "safari":{
-        "heading":"Bughunt Safari",
-        "message":"<p>Safari is a bit wonky right now (I'm working on fixing it). Meanwhile, try another browser or device.</p>"
     },
     "about":{
         "heading":"Polar Defender",

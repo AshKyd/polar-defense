@@ -3,6 +3,7 @@
     "spiel": "<p>The scoundrel invaders are wreaking havoc on Mars, making the red planet even redder!</p><p>You're on fire with the controls, so go help put out the planet.</p>",
     "size": 11,
     "r": 0.95,
+    "class": "Fire",
     "p":{
         "o1": "#621100",
         "o2": "#723F36",

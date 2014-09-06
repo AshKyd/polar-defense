@@ -5,6 +5,7 @@
     "fill":"yellow",
     "stroke":"orange",
     "r": 1.1,
+    "class": "Wind",
     "p":{
         "o1": "#FFF500",
         "o2": "#FFE300",

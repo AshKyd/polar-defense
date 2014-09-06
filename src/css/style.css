@@ -25,7 +25,7 @@ div.main{
 }
 
 div.visible{
-    top:25%;
+    top:15%;
 }
 @media (max-width:480px){
     div{
@@ -74,6 +74,18 @@ a.menu:hover,
 a.menu:focus{
     background:#003;
     border-color:#fff;
+}
+
+.main.levels a.menu{
+    width:140px;
+    margin:0 5px;
+    display:inline-block;
+}
+.main.levels canvas{
+    width:100px;
+}
+.main.levels p{
+    text-align:center;
 }
 
 a span{

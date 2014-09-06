@@ -5,6 +5,7 @@
     "spielD": "<p>Use your arrow keys to move, and space to&nbsp;fire!</p>",
     "size":10,
     "r": 0.95,
+    "class": "Earth",
     "p":{
         "o1": "#0d76b8",
         "o2": "#48b8fb",

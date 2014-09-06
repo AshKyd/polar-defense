@@ -1,14 +1,14 @@
-<svg style="background-color: #000;" id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="628" width="628" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/">
-<defs id="defs4">
-<filter id="filter3791" height="4" width="4" color-interpolation-filters="sRGB" y="-1" x="-1">
-<feGaussianBlur id="feGaussianBlur3793" stdDeviation="134"/>
+<svg style="background-color: #000;" xmlns="http://www.w3.org/2000/svg" height="628" width="628" version="1.1">
+<defs>
+<filter id="a" height="4" width="4" color-interpolation-filters="sRGB" y="-1" x="-1">
+<feGaussianBlur stdDeviation="134"/>
 </filter>
-<filter id="filter3813" height="2.3762739" width="4.0113776" y="0" x="-1">
-<feGaussianBlur id="feGaussianBlur3815" stdDeviation="151"/>
+<filter id="b" height="2.3762739" width="4.0113776" y="0" x="-1">
+<feGaussianBlur stdDeviation="151"/>
 </filter>
 </defs>
-<g id="layer1" stroke-linejoin="miter" transform="translate(17,26)" stroke-linecap="butt" stroke-dasharray="none" stroke-miterlimit="4" fill="none">
-<path id="path3785" opacity="0.57959182" d="M32.857,538.08c492.85-88.57,771.43-391.43,771.43-391.43" filter="url(#filter3791)" stroke="#204a87" stroke-width="200"/>
-<path id="path3803" d="M148.57-46.209c-65.713,210,231.43,527.14,231.43,527.14" filter="url(#filter3813)" stroke="#a40000" stroke-width="100"/>
+<g transform="translate(17,26)">
+<path id="path3785" opacity="0.57959182" d="M32.857,538.08c492.85-88.57,771.43-391.43,771.43-391.43" filter="url(#a)" stroke="#204a87" stroke-width="200"/>
+<path id="path3803" d="M148.57-46.209c-65.713,210,231.43,527.14,231.43,527.14" filter="url(#b)" stroke="#a40000" stroke-width="100"/>
 </g>
 </svg>

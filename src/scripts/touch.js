@@ -13,9 +13,13 @@ var addEventListener = function(l,fn){
     document.body.addEventListener(l,fn, false);
 };
 
+function isTouchTarget(e){
+    return e.target.className != 'menu';
+}
+
 var touchStart;
 addEventListener('touchstart', function(e){
-    if(e.target.nodeName === 'A'){
+    if(!isTouchTarget(e)){
         return;
     }
     exported.x = 0;
@@ -25,7 +29,7 @@ addEventListener('touchstart', function(e){
     return false;
 });
 addEventListener('touchmove', function(e){
-    if(e.target.nodeName === 'A'){
+    if(!isTouchTarget(e)){
         return;
     }
     exported.x = e.targetTouches[0].clientX - touchStart.clientX;
@@ -38,7 +42,7 @@ addEventListener('touchmove', function(e){
 });
 
 addEventListener('touchend', function(e){
-    if(e.target.nodeName === 'A'){
+    if(!isTouchTarget(e)){
         return;
     }
     if(m.abs(exported.x) < 10 && m.abs(exported.y) < 10){
@@ -51,7 +55,7 @@ addEventListener('touchend', function(e){
 
 
 addEventListener('mouseup', function(e){
-    if(e.target.nodeName === 'A'){
+    if(!isTouchTarget(e)){
         return;
     }
     exported.click();

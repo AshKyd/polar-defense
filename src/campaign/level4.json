@@ -3,13 +3,15 @@
     "spiel": "<p>It looks like the invaders are invading our colony on Europa, Jupiter's fourth-largest moon.</p><p>Did you know the surface of Europa is covered in an icy ocean?</p><p>It also has a thin oxygen atmosphere <small>(too thin to breathe, alas)</small>, making it a great location to send petty criminals to manufacture license plates!</p>",
     "size":15,
     "r": 0.95,
+    "class": "Water",
     "p":{
         "o1": "#315A9E",
         "o2": "#113A7D",
         "c2": "#E1ECFF",
         "c3": "#F2F7FF",
         "h1": "rgba(255,255,255,.5)",
-        "h2": "rgba(134,59,249,0)"
+        "h2": "rgba(134,59,249,0)",
+        "cloud":true
     },
     "waves": [{
         "proceedAfter": 1,

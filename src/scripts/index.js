@@ -35,41 +35,13 @@ function showMessage(opts,cb){
         } else {
             mainMenu();
         }
+        return false;
     };
     sounds.play('menu',500);
 }
 
-/**
- * Log an event to Loggly during the beta phase.
- * Note: remove this before release.
- */
-window.log = function(key,data){
-    // window.console && console.log('Sending debug data',key,data);
-    // var src = 'http://logs-01.loggly.com/inputs/76186e9d-1441-4b41-aca0-24182e4f56cf.gif?from=pd';
-    // data = data || {};
-    // data.key = key;
-    // data.ua = navigator.userAgent;
-    // data.resX = innerWidth;
-    // data.resY = innerHeight;
-
-    // for(var i in data){
-    //     src += '&'+encodeURIComponent(i)+'='+encodeURIComponent(data[i]);
-    // }
-    // var pxl = doc.createElement('img');
-    // pxl.src = src;
-};
-
-// window.onerror = function(a,b,c){
-//     log('onerror',{
-//         message: a,
-//         url: b,
-//         lineNumber: c
-//     });
-// };
-
 function gameOver(stats){
     showMessage(campaign.messages.gameOver);
-    log('started',stats);
 }
 
 /**
@@ -77,14 +49,14 @@ function gameOver(stats){
  */
 function flash(){
     canvas.className = 'warn';
-    window.setTimeout(function(){
+    t(function(){
         canvas.className = '';
     },6000);
 }
 
 function rumble(){
     canvas.className = 'rumble';
-    window.setTimeout(function(){
+    t(function(){
         canvas.className = '';
     },500);
 }
@@ -101,6 +73,9 @@ function toggleSound(){
     });
 }
 function zenMode(){
+    if(!localStorage.zen){
+        return showMessage(campaign.messages.zen);
+    }
     message.className = ''; // hide the menu.
     var game = new Game(canvas,{
         gameOver: gameOver,
@@ -113,30 +88,70 @@ function zenMode(){
             p: campaign.levels[0].p
         }
     });
-    // showMessage({
-    //     heading: 'Under construction',
-    //     message: '<p>Zen mode is under construction. &lt;construction.giv&gt;'
-    // });
+}
+
+function createA(html){
+    var a = doc.createElement('a');
+    a.innerHTML = html;
+    a.className = 'menu';
+    a.href = '#';
+    a.onmouseenter = function(){
+        sounds.play('menuItem');
+    }
+    return a;
+}
+
+function levelChooser(){
+    var div = doc.createElement('p');
+    campaign.levels.forEach(function(level,i){
+        if(!level.p){
+            return;
+        }
+        var unlocked = i<1 || localStorage['l'+i];
+        var a = createA(level.class);
+
+        var planetDef = level.p;
+        if(!unlocked){
+            // dark planet
+            planetDef = {
+                "o1": "#000",
+                "o2": "#000",
+                "c2": "#000",
+                "c3": "#000",
+                "h1": "rgba(255,86,132,.6)",
+                "h2": "rgba(97,0,210,0)"
+            }
+        } else {
+            a.onclick = function(){
+                newGame(i);
+            };
+        }
+        planetDef.r = 100;
+        var p = ambience.drawPlanet(planetDef);
+        p.className = 'menu';
+        a.appendChild(p);
+        div.appendChild(a);
+    });
+    showMessage({
+        heading: 'Campaign Mode',
+        message: '',
+        dom: div,
+        className: 'main levels'
+    });
 }
 
 function mainMenu(){
     var options = {
-        '☢;New Campaign': newGame,
+        '☢;New Campaign': levelChooser,
         '☣;Infinite Mode': zenMode,
         '♪;Toggle Sound': toggleSound,
         'ℹ;About': about
     };
     var div = doc.createElement('p');
     for(var i in options){
-        var a = doc.createElement('a');
         var text = i.split(';');
-        a.innerHTML = text[1];
-        a.className="menu";
+        var a = createA(text[1]);
         a.onclick = options[i];
-        a.onmouseenter = function(){
-            sounds.play('menuItem');
-        }
-
         var icon = doc.createElement('span');
         icon.innerHTML = text[0];
         a.appendChild(icon);
@@ -150,21 +165,21 @@ function mainMenu(){
     });
 }
 
-function newGame(){
-    var level = 0;
+function newGame(i){
+    var level = i;
     var touchSupport = 'ontouchstart' in document.documentElement;
     var game;
 
     function gameWon(stats){
+        localStorage.zen = 1;
         showMessage(campaign.messages.gameWon);
-        log('started',stats);
     }
 
     function nextLevel(stats){
         if(game){
             game.end = true;
         }
-
+        localStorage['l'+level] = 1;
         var thisLevel = campaign.levels[level];
 
         if(!thisLevel){
@@ -208,12 +223,6 @@ window.onload = function(){
         return showMessage(campaign.messages.unsupported);
     }
 
-    // Safari is broken ATM. Fixme.
-    var safari = (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0);
-    if(safari){
-        return showMessage(campaign.messages.safari);
-    }
-
     touch = require('./touch');
     canvas = doc.querySelector('#c');
 
@@ -225,5 +234,4 @@ window.onload = function(){
     ctx.drawImage(ambience.drawStarfield(max,max), 0, 0, max, max);
 
     mainMenu();
-    log('started');
 };

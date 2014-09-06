@@ -378,9 +378,6 @@ var Game = function(canv,opts){
             return;
         }
 
-        // FIXME: Remove after beta.
-        log('doomsday',getStats());
-
         // Sorry, you lose all your powerups.
         opts.powerups = {};
 
