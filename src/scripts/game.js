@@ -355,7 +355,8 @@ var Game = function(canv,opts){
         t(function(){
             sounds.play('boom');
             opts.rumble();
-            explodeSprite(mkSprite({w:planet},0.1,0),40);
+            explodeSprite(mkSprite({w:planet/10},0.1,0),100);
+            explodeSprite(mkSprite({w:planet/10},0.1,90),100);
             planetSprite.dead = 1;
             t(function(){
                 opts.gameOver();
@@ -486,7 +487,7 @@ var Game = function(canv,opts){
         });
 
         if(dead || player.dead){
-            doomsday(planet*3);
+            doomsday(planet+max/5);
         }
     }
 

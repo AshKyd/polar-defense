@@ -2,3 +2,4 @@ node_modules
 dist
 dist.zip
 dist-chrome
+levels-compiled.json

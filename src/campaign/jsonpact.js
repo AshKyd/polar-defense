@@ -1,47 +1,48 @@
 var fs = require('fs');
 
-function parseLevel(level){
-    var json = fs.readFileSync('./level'+level+'.json','utf8');
+var keys = [];
 
-    // Minify JSON.
-    json = JSON.parse(json);
+var campaign = {
+    messages: require('./messages'),
+    levels: []
+}
 
-    var keys = [
-        'level',
-        'wave',
-        'rows',
-        'cols',
-        'src',
-        'dest',
-        'dir',
-        'w',
-        'color',
-        'start',
-        'missileInterval',
-        'speedModR',
-        'speedModD',
-        'hp',
-        'sound',
-        'altFreqD'
-    ];
+function getKeys(level){
+    var json = require('./level'+level+'.json');
 
     json.waves.forEach(function(wave){
-        var config = [];
-        wave.sprites.forEach(function(sprites){
-            keys.forEach(function(key){
-                config.push(sprites[key] || undefined);
-            });
+        wave.sprites.forEach(function(sprite){
+            for(key in sprite){
+                if(keys.indexOf(key) == -1){
+                    keys.push(key);
+                }
+            }
         });
-        wave.sprites = config.join(';');
     });
+}
 
+function encode(level){
+    var json = require('./level'+level+'.json');
+
+    json.waves.forEach(function(wave){
+        wave.sprites = wave.sprites.map(function(sprite){
+            return keys.map(function(key){
+                return sprite[key] || '';
+            }).join(',');
+        });
+    });
     return json;
 }
 
 
-var levels = [];
-for(var i=1;i<5;i++){
-    levels.push(parseLevel(i));
+for(var i=1;i<=6;i++){
+    getKeys(i);
 }
 
-fs.writeFileSync('levels-compiled.json',JSON.stringify(levels));
+for(var i=1;i<=6;i++){
+    campaign.levels.push(encode(i));
+}
+
+campaign.keys = keys;
+
+fs.writeFileSync('levels-compiled.json',JSON.stringify(campaign,null,2));
