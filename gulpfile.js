@@ -54,7 +54,7 @@ gulp.task('connect',function(){
     });
 });
 
-gulp.task('chrome',function(){
+gulp.task('chrome-dev',function(){
     gulp.src([
         'src/chrome/manifest.json',
         'src/chrome/background.js',
@@ -63,6 +63,13 @@ gulp.task('chrome',function(){
         'dist/index.html',
         'dist/style.css',
         'dist/index.js',
+        ])
+        .pipe(gulp.dest('chrome/'))
+});
+
+gulp.task('chrome-dist',function(){
+    gulp.src([
+        'chrome/*',
         ])
         .pipe(zip('chrome.zip'))
         .pipe(gulp.dest('./'))
@@ -96,5 +103,5 @@ gulp.task('watch', function () {
     gulp.watch(['src/index.html','src/**/*'], ['build']);
 });
 
-gulp.task('build',['js','css','html','img','zip','chrome']);
+gulp.task('build',['js','css','html','img','zip','chrome-dev','chrome-dist']);
 gulp.task('default',['build','connect','watch']);

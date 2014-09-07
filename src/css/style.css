@@ -83,6 +83,8 @@ a.menu:focus{
 }
 .main.levels canvas{
     width:100px;
+    display:block;
+    margin:0 auto;
 }
 .main.levels p{
     text-align:center;
