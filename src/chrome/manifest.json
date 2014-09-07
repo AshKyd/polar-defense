@@ -1,7 +1,7 @@
 {
     "name": "Polar Defender",
-    "description": "Fight them aliens.",
-    "version": "0.1",
+    "description": "Defend the planet from an alien invasion.",
+    "version": "0.2",
     "manifest_version": 2,
     "app": {
         "background": {

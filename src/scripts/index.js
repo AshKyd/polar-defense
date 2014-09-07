@@ -1,4 +1,3 @@
-// Unicodes worth looking at ☢☣☠
 var campaign = require('../campaign');
 
 // Since we're going for size, alias 'Math' to 'm' globally.
@@ -10,6 +9,8 @@ var Game = require('./game');
 var sounds = require('./audio');
 var ambience = require('./ambience');
 var campaign = require('../campaign');
+
+window.storage = require('./storage');
 
 var touch;
 var canvas;
@@ -73,7 +74,7 @@ function toggleSound(){
     });
 }
 function zenMode(){
-    if(!localStorage.zen){
+    if(!storage.cache.zen){
         return showMessage(campaign.messages.zen);
     }
     message.className = ''; // hide the menu.
@@ -107,7 +108,7 @@ function levelChooser(){
         if(!level.p){
             return;
         }
-        var unlocked = i<1 || localStorage['l'+i];
+        var unlocked = i<1 || storage.cache['l'+i];
         var a = createA(level.class);
 
         var planetDef = level.p;
@@ -171,7 +172,7 @@ function newGame(i){
     var game;
 
     function gameWon(stats){
-        localStorage.zen = 1;
+        storage.set('zen',1);
         showMessage(campaign.messages.gameWon);
     }
 
@@ -179,7 +180,7 @@ function newGame(i){
         if(game){
             game.end = true;
         }
-        localStorage['l'+level] = 1;
+        storage.set('l'+level, 1);
         var thisLevel = campaign.levels[level];
 
         if(!thisLevel){
