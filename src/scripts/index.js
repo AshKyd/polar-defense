@@ -230,6 +230,13 @@ window.onload = function(){
     canvas.width = max;
     canvas.height = max;
 
+    // Scale with CSS on resize.
+    window.onresize = function(){
+        var max = m.min(innerHeight,innerWidth)+'px';
+        canvas.style.width = max;
+        canvas.style.height = max;
+    }
+
     var ctx = canvas.getContext('2d');
     ctx.drawImage(ambience.drawStarfield(max,max), 0, 0, max, max);
 

@@ -552,8 +552,8 @@ var Game = function(canv,opts){
         ctx.fillStyle = '#fff';
         ctx.fillText("Score: "+opts.score, -max/2+10, -max/2+30);
 
-        ctx.fillText(m.round(fps)+'fps - '+
-            +m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax - '+sprites.length+' sprites', -max/2+10, max/2-100);
+        // ctx.fillText(m.round(fps)+'fps - '+
+        //     +m.round(fpsMin)+'fpsMin - '+m.round(fpsMax)+'fpsMax - '+sprites.length+' sprites', -max/2+10, max/2-100);
 
 
         var livesText = '';

@@ -64,7 +64,8 @@ gulp.task('chrome',function(){
         'dist/style.css',
         'dist/index.js',
         ])
-        .pipe(gulp.dest('dist-chrome/'));
+        .pipe(zip('chrome.zip'))
+        .pipe(gulp.dest('./'))
 });
 
 gulp.task('zip',function(){
