@@ -65,14 +65,13 @@ addEventListener('mouseup', function(e){
 var firing = false;
 var fireKeys = [32,27];
 addEventListener('keydown',function(e){
-    var now = performance.now();
     if(e.which == 37 && exported.h != -1){
         exported.h = -1;
-        exported.hStart = now;
+        exported.hStart = now();
     }
     if(e.which == 39 && exported.h != 1){
         exported.h = 1;
-        exported.hStart = now;
+        exported.hStart = now();
     }
     if(fireKeys.indexOf(e.which) != -1 && !firing){
         exported.click && exported.click();

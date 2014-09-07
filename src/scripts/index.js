@@ -1,20 +1,46 @@
-var campaign = require('../campaign');
-
 // Since we're going for size, alias 'Math' to 'm' globally.
 window.m = Math;
 window.t = setTimeout;
+
+/**
+ * Tiny shimlike bit for performance.now since Webkit mightn't have it.
+ */
+window.now = function(){
+    if(performance.now){
+        return performance.now();
+    }
+    return Date.now();
+}
+
+/**
+ * rAF polyfill for old browsers.
+ */
+window.requestAnimationFrame = (function(){
+  return  window.requestAnimationFrame       ||
+          window.webkitRequestAnimationFrame ||
+          function( callback ){
+            window.setTimeout(callback, 1000 / 30);
+          };
+})();
+
+/**
+ * Mobile debugging like it's 1999.
+ */
+// window.onerror = function(a,b,c){
+//     alert('Line '+c+"\n"+a);
+//     return false;
+// }
+
+
 var doc = document;
 
 var Game = require('./game');
-var sounds = require('./audio');
 var ambience = require('./ambience');
-var campaign = require('../campaign');
-
-window.storage = require('./storage');
-
+var storage = require('./storage');
+var sounds;
 var touch;
 var canvas;
-
+var campaign;
 var message;
 function showMessage(opts,cb){
     if(message){
@@ -219,12 +245,10 @@ function newGame(i){
 }
 
 window.onload = function(){
-
     if(!Array.prototype.forEach){
         return showMessage(campaign.messages.unsupported);
     }
 
-    touch = require('./touch');
     canvas = doc.querySelector('#c');
 
     var max = m.min(innerHeight,innerWidth);
@@ -241,5 +265,11 @@ window.onload = function(){
     var ctx = canvas.getContext('2d');
     ctx.drawImage(ambience.drawStarfield(max,max), 0, 0, max, max);
 
-    mainMenu();
+    // Improve perceived load performance on slow devices.
+    t(function(){
+        sounds = require('./audio');
+        touch = require('./touch');
+        campaign = require('../campaign');
+        mainMenu();
+    })
 };

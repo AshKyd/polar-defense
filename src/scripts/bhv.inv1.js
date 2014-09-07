@@ -6,13 +6,13 @@ module.exports = {
         this.score = this.score || 100;
         this.kinetic = 1;
         this.invader = 1;
-        this.lastAlt = performance.now();
+        this.lastAlt = now();
     },
     tick: function(delta){
         var speedModD = this.speedModD || 1;
         var speedModR = typeof this.speedModR == 'undefined' ? 1 : this.speedModR;
         var amount = this.max/60;
-        var pNow = performance.now();
+        var pNow = now();
 
         if(this.altFreqD && pNow-this.lastAlt > this.altFreqD*1000){
             this.dir = this.dir == 1 ? -1 : 1;

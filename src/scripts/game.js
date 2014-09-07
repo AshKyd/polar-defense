@@ -29,7 +29,7 @@ var Game = function(canv,opts){
 
     var planet = max/opts.level.size;
     var offset = max/15;
-    var lastFrame = performance.now();
+    var lastFrame = now();
 
     var ctx = canv.getContext('2d');
     ctx.translate(max/2,max/2);
@@ -499,8 +499,8 @@ var Game = function(canv,opts){
      */
     function deHp(sprite){
         if(sprite.hp && sprite.hp > 0){
-            if(typeof sprite.lastHit == 'undefined' || performance.now()-sprite.lastHit > 1000){
-                sprite.lastHit = performance.now();
+            if(typeof sprite.lastHit == 'undefined' || now()-sprite.lastHit > 1000){
+                sprite.lastHit = now();
                 sprite.hp--;
                 return 1;
             } else {
@@ -575,17 +575,17 @@ var Game = function(canv,opts){
         var x = -max/2;
         ctx.clearRect(x,x,max,max);
         ctx.drawImage(starfield, x, x)
-        var delta = performance.now() - lastFrame;
+        var delta = now() - lastFrame;
 
         fps = (fps*9 + 1000/delta)/10;
         frameCount++;
         fpsMax = m.max(fps,fpsMax);
         fpsMin = m.min(fps,fpsMin);
-        lastFrame = performance.now();
+        lastFrame = now();
 
         if(touch.hStart){
             // From 0 to 6 in 1 seconds.
-            var diff = m.min(6, (performance.now() - touch.hStart)/1000*6);
+            var diff = m.min(6, (now() - touch.hStart)/1000*6);
             player.posInc(0,touch.h*(max/1000+diff));
         } else {
             // FIXME: This mightn't work on different sized screens.

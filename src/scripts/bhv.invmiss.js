@@ -8,7 +8,7 @@ module.exports = {
         _this.strokeWidth = _this.w/2;
     },
     tick: function(delta){
-        this.stroke = m.round(performance.now()/200)%2 == 0 ? 'orange' : 'yellow';
+        this.stroke = m.round(now()/200)%2 == 0 ? 'orange' : 'yellow';
         this.posInc(0-delta/10,0);
     }
 };
