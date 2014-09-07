@@ -1,8 +1,5 @@
 var REVOLUTION = 360;
 
-var rad2deg = function(rad){
-    return rad / (m.PI/180);
-};
 var deg2rad = function(rad){
     return rad * (m.PI/180);
 };
@@ -48,22 +45,6 @@ pp.rad = function(){
 var CartesianCoordinate = function(x,y){
     this.x = Number(x);
     this.y = Number(y);
-};
-var cp = CartesianCoordinate.prototype;
-cp.toPolar = function(){
-    var radius = m.sqrt(m.pow(this.x,2) + m.pow(this.y,2));
-    var degree = rad2deg(m.atan(this.y/this.x));
-
-    // Negative values are transposed to positive values, so
-    // counteract that here
-    if(this.x < 0){
-        degree += 180;
-    }
-
-    return new PolarCoordinate(radius,degree);
-};
-cp.toString = function(){
-    return round(this.x) + "," + round(this.y);
 };
 
 module.exports = {

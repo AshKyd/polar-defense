@@ -1,14 +1,12 @@
-<svg style="background-color: #000;" xmlns="http://www.w3.org/2000/svg" height="628" width="628" version="1.1">
-<defs>
-<filter id="a" height="4" width="4" color-interpolation-filters="sRGB" y="-1" x="-1">
+<svg style="background-color:#000;" xmlns="http://www.w3.org/2000/svg" height="628" width="628">
+<defs id="defs4">
+<filter id="a" width="4" y="-1" x="-1" height="4" color-interpolation-filters="sRGB">
 <feGaussianBlur stdDeviation="134"/>
 </filter>
-<filter id="b" height="2.3762739" width="4.0113776" y="0" x="-1">
+<filter id="b" y="0" width="4" x="-1" height="2.4">
 <feGaussianBlur stdDeviation="151"/>
 </filter>
 </defs>
-<g transform="translate(17,26)">
-<path id="path3785" opacity="0.57959182" d="M32.857,538.08c492.85-88.57,771.43-391.43,771.43-391.43" filter="url(#a)" stroke="#204a87" stroke-width="200"/>
-<path id="path3803" d="M148.57-46.209c-65.713,210,231.43,527.14,231.43,527.14" filter="url(#b)" stroke="#a40000" stroke-width="100"/>
-</g>
+<path opacity="0.57959182" d="M821,172,478,415,178,510" filter="url(#a)" stroke="#204a87" stroke-width="200"/>
+<path  d="M397,506,207,290,186,63" filter="url(#b)" stroke="#a40000" stroke-width="100"/>
 </svg>

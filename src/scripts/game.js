@@ -563,8 +563,6 @@ var Game = function(canv,opts){
         }
         ctx.fillStyle = '#f22';
         ctx.fillText(livesText, -max/2+10, -max/2+60);
-
-
     }
 
 

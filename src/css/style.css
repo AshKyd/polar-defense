@@ -78,7 +78,7 @@ a.menu:focus{
 
 .main.levels a.menu{
     width:140px;
-    margin:0 5px;
+    margin:5px;
     display:inline-block;
 }
 .main.levels canvas{

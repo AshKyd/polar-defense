@@ -24,9 +24,10 @@ gulp.task('js', function() {
 
 gulp.task('deploy',function(cb){
     rsync({
-        src:'dist/',
-        dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defense/',
-        args: 'avz'
+        src:'dist/*',
+        dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defender/',
+        args: 'vz',
+        ssh: true
     },cb);
 });
 
@@ -86,7 +87,7 @@ gulp.task('zip',function(){
                 } catch(e){
 
                 }
-            },200);
+            },500);
         }));
 });
 
