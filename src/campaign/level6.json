@@ -2,9 +2,7 @@
     "title": "As a last-ditch attempt, they want to destroy the sun!",
     "spiel": "<p>The audacity! Without the sun we're doomed!</p><p>You must stop these ghastly invaders!</p>",
     "size":5,
-    "fill":"yellow",
-    "stroke":"orange",
-    "r": 1.1,
+    "r": 1,
     "class": "Wind",
     "p":{
         "o1": "#FFF500",
@@ -181,7 +179,7 @@
             "missileInterval": 1000,
             "speedModD": 0.5,
             "speedModR": 0,
-            "hp": 30,
+            "hp": 20,
             "sound":"boom",
             "altFreqD": 20
         }]

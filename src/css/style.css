@@ -27,18 +27,6 @@ div.main{
 div.visible{
     top:15%;
 }
-@media (max-width:480px){
-    div{
-        left:0;
-        right:0;
-        width:auto;
-        margin:0;
-        font-size:1em;
-    }
-    div.visible{
-        top:0;
-    }
-}
 div h1{
     margin-bottom:.5em;
     text-align:center;
@@ -77,17 +65,19 @@ a.menu:focus{
 }
 
 .main.levels a.menu{
-    width:140px;
+    width:30%;
     margin:5px;
     display:inline-block;
+    position:relative;
 }
 .main.levels canvas{
-    width:100px;
+    width:80%;
     display:block;
     margin:0 auto;
 }
 .main.levels p{
     text-align:center;
+    position:relative;
 }
 
 a span{
@@ -103,6 +93,18 @@ a span{
 }
 a:hover span{
     color:#1dff00;
+}
+@media (max-width:480px){
+    div{
+        left:0;
+        right:0;
+        width:auto;
+        margin:0;
+        font-size:1em;
+    }
+    div.visible{
+        top:0;
+    }
 }
 
 

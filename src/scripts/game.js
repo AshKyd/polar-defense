@@ -291,7 +291,7 @@ var Game = function(canv,opts){
                 behaviour:'particle',
                 kinetic: false,
                 fill: m.random > 0.5 ? '#222' : '#333',
-                w: sprite.w/4 || planet/8,
+                w: sprite.w/2,
                 life: m.random()*(throttle*200)+throttle*100,
                 pos: new Polar(sprite.pos.r,sprite.pos.d),
                 momentum: [(m.random()-.5)/10,(m.random()-0.5)]
@@ -310,7 +310,7 @@ var Game = function(canv,opts){
             mkSprite({
                 behaviour:'particle',
                 life: m.random()*1000+1000*m.min(i,10),
-                w: m.random()*(sprite.w/2 || planet/8),
+                w: m.max(0.5,m.random()*sprite.w/4),
                 pos: new Polar(sprite.pos.r,sprite.pos.d),
                 momentum: [(m.random()-.5)/5,(m.random()-0.5)]
             });
@@ -319,6 +319,7 @@ var Game = function(canv,opts){
             mkSprite({
                 behaviour:'particle',
                 kinetic: false,
+                w: m.max(0.5,m.random()*sprite/4),
                 life: m.random()*500,
                 pos: new Polar(sprite.pos.r,sprite.pos.d),
                 momentum: [m.random(),m.random()]

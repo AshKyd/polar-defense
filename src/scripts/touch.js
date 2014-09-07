@@ -58,7 +58,7 @@ addEventListener('mouseup', function(e){
     if(!isTouchTarget(e)){
         return;
     }
-    exported.click();
+    exported.click && exported.click();
 });
 
 
@@ -75,7 +75,7 @@ addEventListener('keydown',function(e){
         exported.hStart = now;
     }
     if(fireKeys.indexOf(e.which) != -1 && !firing){
-        exported.click();
+        exported.click && exported.click();
         firing = true;
     }
 });
