@@ -15,16 +15,9 @@ window.now = function(){
 /**
  * rAF polyfill for old browsers.
  */
-window.requestAnimationFrame = (function(){
-  return  window.requestAnimationFrame       ||
-          window.webkitRequestAnimationFrame ||
-          function( callback ){
-            window.setTimeout(callback, 1000 / 30);
-          };
-})();
-
-
-var doc = document;
+window.requestAnimationFrame = window.requestAnimationFrame || function( callback ){
+    window.setTimeout(callback, 33);
+};
 
 var Game = require('./game');
 var ambience = require('./ambience');
@@ -36,14 +29,14 @@ var campaign;
 var message;
 function showMessage(opts,cb){
     if(message){
-        doc.body.removeChild(message);
+        document.body.removeChild(message);
     }
     message = document.createElement('div');
     message.innerHTML = '<h1>'+opts.heading+'</h1>'+opts.message;
     if(opts.dom){
         message.appendChild(opts.dom);
     }
-    doc.body.appendChild(message);
+    document.body.appendChild(message);
     t(function(){
         message.className = 'visible '+(opts.className||'');
     });
@@ -110,7 +103,7 @@ function zenMode(){
 }
 
 function createA(html){
-    var a = doc.createElement('a');
+    var a = document.createElement('a');
     a.innerHTML = html;
     a.className = 'menu';
     a.href = '#';
@@ -121,7 +114,7 @@ function createA(html){
 }
 
 function levelChooser(){
-    var div = doc.createElement('p');
+    var div = document.createElement('p');
     campaign.levels.forEach(function(level,i){
         if(!level.p){
             return;
@@ -166,12 +159,12 @@ function mainMenu(){
         '♪;Toggle Sound': toggleSound,
         'ℹ;About': about
     };
-    var div = doc.createElement('p');
+    var div = document.createElement('p');
     for(var i in options){
         var text = i.split(';');
         var a = createA(text[1]);
         a.onclick = options[i];
-        var icon = doc.createElement('span');
+        var icon = document.createElement('span');
         icon.innerHTML = text[0];
         a.appendChild(icon);
         div.appendChild(a);
@@ -241,7 +234,7 @@ window.onload = function(){
         return showMessage(campaign.messages.unsupported);
     }
 
-    canvas = doc.querySelector('#c');
+    canvas = document.querySelector('#c');
 
     var max = m.min(innerHeight,innerWidth);
     canvas.width = max;

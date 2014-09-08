@@ -17,7 +17,7 @@ module.exports = {
     },
     s: {//ilver
         '#f00': '#aaa',
-        '#800': '#eee'
+        '#800': '#ccc'
     },
     b: {//lue
         '#f00': '#1a9bff',
