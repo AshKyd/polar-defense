@@ -72,8 +72,7 @@ gulp.task('firefox-dev',function(){
 
 gulp.task('chrome-dist',function(){
     gulp.src([
-        'src/chrome/*',
-        'dist/*'
+        'chrome/*',
         ])
         .pipe(zip('chrome.zip'))
         .pipe(gulp.dest('./'))
@@ -81,8 +80,7 @@ gulp.task('chrome-dist',function(){
 
 gulp.task('firefox-dist',function(){
     gulp.src([
-        'src/firefox/*',
-        'dist/*'
+        'firefox/*',
         ])
         .pipe(zip('firefox.zip'))
         .pipe(gulp.dest('./'))
@@ -100,10 +98,11 @@ gulp.task('zip',function(){
             setTimeout(function(){
                 try{
                     var size = fs.statSync(__dirname+'/dist.zip').size;
+                    var bytesleft = (max-size)+' bytes left.';
                     if(size > max){
-                        console.error('FILESIZE OVER: ',size);
+                        console.error('FILESIZE OVER: ',size+'kb. '+bytesleft);
                     } else {
-                        console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+(max-size)+' bytes left.');
+                        console.log('FILESIZE OKAY: ',Math.round(size/10.24)/100+'kb. '+bytesleft);
                     }
                 } catch(e){
 
@@ -116,5 +115,5 @@ gulp.task('watch', function () {
     gulp.watch(['src/index.html','src/**/*'], ['build']);
 });
 
-gulp.task('build',['js','css','html','img','zip','chrome-dev','chrome-dist','firefox-dist']);
+gulp.task('build',['js','css','html','img','zip','chrome-dev','chrome-dist','firefox-dev','firefox-dist']);
 gulp.task('default',['build','connect','watch']);
