@@ -10,7 +10,10 @@ ArcadeAudio.prototype.play = function( key, delay ) {
     var sound = this.sounds[ key ];
     t(function(){
         var soundData = sound.length > 1 ? sound[ m.floor( m.random() * sound.length ) ] : sound[ 0 ];
-        soundData.pool[ soundData.tick ].play();
+        var sound = soundData.pool[ soundData.tick ];
+        if(sound.duration){
+            sound.play();
+        }
         soundData.tick < soundData.count - 1 ? soundData.tick++ : soundData.tick = 0;
     },delay);
 };
@@ -60,7 +63,7 @@ for (var key in sounds) {
             count: 5,
             pool: []
         });
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 1; i++) {
             var audio = new Audio();
             audio.src = jsfxr(elem);
             audioInstance.sounds[key][index].pool.push(audio);

@@ -6,7 +6,7 @@ window.t = setTimeout;
  * Tiny shimlike bit for performance.now since Webkit mightn't have it.
  */
 window.now = function(){
-    if(performance.now){
+    if(window.performance && performance.now){
         return performance.now();
     }
     return Date.now();
@@ -22,14 +22,6 @@ window.requestAnimationFrame = (function(){
             window.setTimeout(callback, 1000 / 30);
           };
 })();
-
-/**
- * Mobile debugging like it's 1999.
- */
-// window.onerror = function(a,b,c){
-//     alert('Line '+c+"\n"+a);
-//     return false;
-// }
 
 
 var doc = document;

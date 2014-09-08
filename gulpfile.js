@@ -31,6 +31,15 @@ gulp.task('deploy',function(cb){
     },cb);
 });
 
+gulp.task('deploy-dev',function(cb){
+    rsync({
+        src:'dist/*',
+        dest:'direct.ash.ms:/var/www/ash.ms/public_html/polar-defender/dev/',
+        args: 'vz',
+        ssh: true
+    },cb);
+});
+
 gulp.task('html', function(){
     gulp.src('src/index.html')
         .pipe(gulp.dest('dist/'));
