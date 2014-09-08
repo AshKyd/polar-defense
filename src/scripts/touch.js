@@ -9,39 +9,34 @@ var exported = {
 };
 module.exports = exported;
 
-var addEventListener = function(l,fn){
-    document.body.addEventListener(l,fn, false);
-};
+var db = document.body;
 
 function isTouchTarget(e){
     return e.target.className != 'menu';
 }
 
 var touchStart;
-addEventListener('touchstart', function(e){
+db.ontouchstart = function(e){
     if(!isTouchTarget(e)){
         return;
     }
     exported.x = 0;
-    exported.y = 0;
-    touchStart = e.targetTouches[0];
+    touchStart = e.targetTouches[0].clientX;
     e.preventDefault();
-    return false;
-});
-addEventListener('touchmove', function(e){
+};
+db.ontouchmove = function(e){
+    e.preventDefault();
     if(!isTouchTarget(e)){
         return;
     }
-    exported.x = e.targetTouches[0].clientX - touchStart.clientX;
+    exported.x = e.targetTouches[0].clientX - touchStart;
     var max = exported.max/2.5;
     exported.x = m.min(max,m.max(0-max,exported.x));
     exported.h = exported.x/(max/20);
-    exported.y = e.targetTouches[0].clientY - touchStart.clientY;
     e.preventDefault();
-    return false;
-});
+};
 
-addEventListener('touchend', function(e){
+db.ontouchend = function(e){
     if(!isTouchTarget(e)){
         return;
     }
@@ -49,22 +44,20 @@ addEventListener('touchend', function(e){
         exported.click();
     }
     exported.x = 0;
-    exported.y = 0;
     exported.h = 0;
-});
+};
 
 
-addEventListener('mouseup', function(e){
-    if(!isTouchTarget(e)){
-        return;
+db.onmouseup = function(e){
+    if(isTouchTarget(e)){
+        exported.click && exported.click();
     }
-    exported.click && exported.click();
-});
+};
 
 
 var firing = false;
 var fireKeys = [32,27];
-addEventListener('keydown',function(e){
+db.onkeydown = function(e){
     if(e.which == 37 && exported.h != -1){
         exported.h = -1;
         exported.hStart = now();
@@ -77,9 +70,9 @@ addEventListener('keydown',function(e){
         exported.click && exported.click();
         firing = true;
     }
-});
+};
 
-addEventListener('keyup',function(e){
+db.onkeyup = function(e){
     if(e.which == 37 && exported.h == -1){
         exported.h = 0;
         exported.hStart = 0;
@@ -91,4 +84,4 @@ addEventListener('keyup',function(e){
     if(fireKeys.indexOf(e.which) != -1){
         firing = false;
     }
-});
+};
