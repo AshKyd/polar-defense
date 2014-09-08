@@ -585,11 +585,10 @@ var Game = function(canv,opts){
 
         if(touch.hStart){
             // From 0 to 6 in 1 seconds.
-            var diff = m.min(6, (now() - touch.hStart)/1000*6);
-            player.posInc(0,touch.h*(diff));
+            player.posInc(0,touch.h*(m.min(6, (now() - touch.hStart)/1000*6)));
         } else {
             // FIXME: This mightn't work on different sized screens.
-            player.posInc(0,touch.h/planet*(delta/2));
+            player.posInc(0,touch.h/(max-planet*4)*(delta/2));
         }
 
         collisionDetection();
