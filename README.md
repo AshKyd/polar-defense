@@ -11,28 +11,9 @@ of fun in this messy space shoot-em-up.
 
 An entry for js13kgames. I've wanted to do something with polar coordinates since working on the [ABC 2013-14 ashes catches game](http://www.abc.net.au/news/sport/cricket/ashes-2013-game/), so here's a little radial shooter for a bit of fun.
 
-## Development
-
-This project uses [Gulp](gulpjs.com).
-
-### Prerequisites
-
-There's a couple of rerequisites that I haven't included in the Gulpfile.
-
-* Build the SVG package. `cd src/img;noode encode.js`
-* Build the compacted campaign files. `cd src/campaign;node jsonpact.js`
-
-You only need to build these when you change the files in the respective dirs.
-
-### Developing
-
-1. `npm install`
-2. Run `gulp` to start up a server on localhost.
-
 ### Building
 
-* `gulp build` builds everything into dist/ and packages Chrome Web Store and
-    Firefox Marketplace targets into chrome.zip and firefox.zip.
+* `npm run build` builds everything into dist/
 
 ## Platform support
 
