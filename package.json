@@ -23,14 +23,6 @@
   },
   "devDependencies": {
     "browserify": "^13.1.1",
-    "gulp": "~3.6.2",
-    "gulp-browserify": "~0.5.0",
-    "gulp-connect": "~2.0.5",
-    "gulp-less": "~1.2.3",
-    "gulp-uglify": "~0.2.1",
-    "gulp-zip": "~1.0.0",
-    "rsyncwrapper": "~0.4.1",
-    "through": "~2.3.4",
     "uglifyjs": "^2.4.10"
   },
   "dependencies": {
