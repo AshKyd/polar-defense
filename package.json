@@ -12,7 +12,7 @@
     "css": "cp src/css/* dist/",
     "img": "cd src/img;node encode.js",
     "campaign": "cd src/campaign;node jsonpact.js",
-    "browserify": "node node_modules/browserify/bin/cmd.js src/scripts/index.js | node node_modules/uglifyjs/bin/uglifyjs > dist/index.js",
+    "browserify": "browserify src/scripts/index.js | uglifyjs > dist/index.js",
     "resources": "cp src/index.html src/img dist/ -r",
     "build": "npm run clean;npm run img & npm run campaign;wait;npm run css & npm run browserify & npm run resources; wait;"
   },
